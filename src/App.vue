@@ -1,28 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { onUpdated, ref } from 'vue';
+import { ref } from 'vue';
 import router from './router';
 
-const route = useRoute();
-
-const quize_counter_active = () => {
-  console.log(route.path)
-  if (route.path == "/quize") {
-    console.log(route.path)
-    return true
-  }  
-
-  return false
-}
+  
 </script>
 
 <template>
   <div class="container">
     <header class="header">
-      <ul class="counter_list" v-if="quize_counter_active()">
-        <li v-for="loop in 3">{{loop}}</li>
-      </ul>
+      <RouterView name="header"></RouterView>
     </header>
     <main>
       <div class="main">
@@ -48,23 +36,7 @@ const quize_counter_active = () => {
   z-index: 999;
 
 }
-.counter_list{
-  color: aqua;
-  background-color:#D9D9D9;
-  list-style: none;
-  height: 100%;
-  
-  
-  li {
-    display: inline-block;
-    background-color: #666;
-    height: 100%;
-    width: 100px;
-    text-align: center;
-    line-height: 100px;
-    font-size: large;
-  }
-}
+
 
 .main {
   margin-top: 10%;
