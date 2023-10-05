@@ -5,18 +5,14 @@ import type router from '@/router';
 </script>
 
 <template>
-    <main>
-    <div class="btn"><button @click="() => {$router.push('#')}">Start</button></div>
-    </main>
+    <button class="btn" @click="() => {$router.push('quize')}">Start</button>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btn {
+    display: block;
     margin: auto;
-    button{
-        width: 300px;
-        height: 300px;
-    }
+    
 }
 
 </style>
