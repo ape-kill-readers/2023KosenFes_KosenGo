@@ -12,24 +12,33 @@ import router from './router';
     <header class="header">
       <RouterView name="header"></RouterView>
     </header>
-    <main>
-      <div class="main">
+    <main class="main">
       <RouterView />
-      </div>
     </main>
     <footer class="footer">
+      <RouterView name="footer"></RouterView>
       <div>
-        フッターエリア
+          
       </div>
     </footer>
   </div>
 </template>
 
 <style>
+
+body{
+  min-height: 100vh;
+  #app {
+    height: 100vh;
+  }
+}
+.container {
+  height: 100%;
+}
 .header {
   background-color: #D9D9D9;
   width: 100%;
-  height: 100px;
+  height: 13%;
   top: 0;
   left: 0;
   right: 0;
@@ -37,9 +46,15 @@ import router from './router';
 
 }
 
+.footer {
+  background-color: #666;
+  width: 100%;
+  height: 27%;
+}
+
 
 .main {
-  margin-top: 10%;
+  height: 60%;
 }
 .div {
   text-align: center;
