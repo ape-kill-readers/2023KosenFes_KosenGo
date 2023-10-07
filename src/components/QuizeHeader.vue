@@ -3,7 +3,7 @@
 
 <template>
     <ul class="counter_list">
-        <li v-for="loop in 3">{{loop}}</li>
+        <li v-for="loop in 3"><p>{{loop}}</p></li>
     </ul>
 </template>
 
@@ -19,10 +19,13 @@
       display: inline-block;
       background-color: #666;
       height: 100%;
-      width: 100px;
-      text-align: center;
+      width: 130px;
       line-height: 100px;
       font-size: large;
+      text-align: center;
+      p {
+        height: 100%;
+      }
     }
   }
   
