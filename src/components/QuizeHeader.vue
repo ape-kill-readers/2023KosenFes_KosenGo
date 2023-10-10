@@ -1,9 +1,26 @@
 <script setup lang="ts">
+  import { onMounted, watch, ref } from 'vue';
+
+  const QuizeProgressCount = ref(0)
+  const props = defineProps<{QuizeProgressCount: number}>();
+
+  onMounted(
+    watch(() => props.QuizeProgressCount, () => {
+      for(let i = 0; i <= 3; i++) {
+        const LiElm = document.getElementById("counter" + i)!
+        LiElm.style.backgroundColor = "#000000"
+      }
+
+      console.log()
+    })
+  )
+
+
 </script>
 
 <template>
     <ul class="counter_list">
-        <li v-for="loop in 3"><p>{{loop}}</p></li>
+        <li v-for="loop in 3" :id="'counter'+ (loop + 1)"><p>{{loop}}</p></li>
     </ul>
 </template>
 
