@@ -2,10 +2,14 @@
     import { ref } from 'vue';
 
     const UserAnswer = ref('')
+    const consoled = () => {
+        console.log("println")
+        UserAnswer.value = ''
+    }
 </script>
 
 <template>
-    <input v-model="UserAnswer" class="user_answer_input">
+    <input v-model="UserAnswer" @keyup.enter="consoled()" class="user_answer_input">
 </template>
 
 <style>
