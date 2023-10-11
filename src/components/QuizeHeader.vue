@@ -25,7 +25,7 @@ console.log(QuizeProgressCount.ProgressCount)
     </ul>
 </template>
 
-<style>
+<style lang="scss">
 .counter_list{
     color: aqua;
     background-color:#D9D9D9;
