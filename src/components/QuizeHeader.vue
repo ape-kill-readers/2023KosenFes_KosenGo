@@ -1,26 +1,27 @@
 <script setup lang="ts">
   import { onMounted, watch, ref } from 'vue';
+  import {useProgressCounterStore} from '../store/QuizeProgressCounter'
+import { storeToRefs } from 'pinia';
 
-  const QuizeProgressCount = ref(0)
-  const props = defineProps<{QuizeProgressCount: number}>();
+  const QuizeProgressCount = useProgressCounterStore()
+  const {ProgressCount} = storeToRefs(QuizeProgressCount)
 
-  onMounted(
-    watch(() => props.QuizeProgressCount, () => {
-      for(let i = 0; i <= 3; i++) {
-        const LiElm = document.getElementById("counter" + i)!
+console.log(QuizeProgressCount.ProgressCount)
+ // onMounted(
+    watch (ProgressCount, () => {
+      for(let i = 1; i <= ProgressCount.value; i++) {
+        const LiElm = document.getElementById("counter" + i) as HTMLElement
         LiElm.style.backgroundColor = "#000000"
       }
-
-      console.log()
     })
-  )
+  //)
 
 
 </script>
 
 <template>
     <ul class="counter_list">
-        <li v-for="loop in 3" :id="'counter'+ (loop + 1)"><p>{{loop}}</p></li>
+        <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
     </ul>
 </template>
 
