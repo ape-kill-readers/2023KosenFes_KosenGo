@@ -2,7 +2,7 @@
     <p class="header_content"> スタート画面 </p>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header {
     height: 10%;
     display: flex;
@@ -12,8 +12,9 @@
         color: white;
         text-shadow: 0px 4px 4px black;
         font-family: Abel;
-        font-size: 70px; 
-        font-weight: 400;
+        font-size: 50px; 
+        font-weight: 300;
+        text-align: center;
         line-height: normal; 
     }
 }
