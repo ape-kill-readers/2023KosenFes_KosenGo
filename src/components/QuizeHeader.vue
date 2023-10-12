@@ -6,15 +6,22 @@ import { storeToRefs } from 'pinia';
   const QuizeProgressCount = useProgressCounterStore()
   const {ProgressCount} = storeToRefs(QuizeProgressCount)
 
-console.log(QuizeProgressCount.ProgressCount)
- // onMounted(
-    watch (ProgressCount, () => {
-      for(let i = 1; i <= ProgressCount.value; i++) {
-        const LiElm = document.getElementById("counter" + i) as HTMLElement
-        LiElm.style.backgroundColor = "#000000"
-      }
-    })
-  //)
+  console.log(QuizeProgressCount.ProgressCount)
+
+  onMounted(() => {
+    for(let i = 1; i <= ProgressCount.value; i++) {
+      const LiElm = document.getElementById("counter" + i) as HTMLElement
+      LiElm.style.backgroundColor = "#000000"
+    }
+  })
+
+  watch (ProgressCount, () => {
+    for(let i = 1; i <= ProgressCount.value; i++) {
+      const LiElm = document.getElementById("counter" + i) as HTMLElement
+      LiElm.style.backgroundColor = "#000000"
+    }
+  })
+
 
 
 </script>
