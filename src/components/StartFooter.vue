@@ -9,7 +9,7 @@
 </script>
 
 <template>
-    <input v-model="UserAnswer" @keyup.enter="consoled()" class="user_answer_input">
+    <input v-model="UserAnswer" @keyup.enter="() => {$router.push('quize')}" class="user_answer_input">
 </template>
 
 <style>
