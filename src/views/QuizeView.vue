@@ -25,7 +25,7 @@ const route = useRoute();
     <div class="question">
         <div class="questionField">
             <div class="questionBox">
-                
+                <text class="questionText">jijiji</text>
             </div>
         </div>
     </div>
@@ -69,16 +69,25 @@ const route = useRoute();
     .questionField {
         display: flex;
         position: absolute;
+        align-items: center;
+        justify-content: center;
     }
     .questionBox {
+        display: flex;
+        width: 75vh;
+        height: 40vh;
+        align-items: center;
+        justify-content: center;
         background-color: #d9d9d9;
-        padding-right: 35vh;
-        padding-left: 35vh;
-        padding-top: 20vh;
-        padding-bottom: 20vh;
-        /*
-        width: 775px;
-        height: 345px;
-        */
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+    .questionText {
+        width: 75vh;
+        padding-right: 4vh;
+        padding-left: 4vh;
+        text-align: center;
+        font-size: 4vh;
+        color: red;
     }
 </style>
