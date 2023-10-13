@@ -8,14 +8,12 @@
     display: flex;
     justify-content: center;
     .header_content{
-        margin: auto 0;
         color: white;
         text-shadow: 0px 4px 4px black;
         font-family: Abel;
-        font-size: 50px; 
+        font-size: 6vh; 
         font-weight: 300;
-        text-align: center;
-        line-height: normal; 
+        text-align: center; 
     }
 }
 </style>
