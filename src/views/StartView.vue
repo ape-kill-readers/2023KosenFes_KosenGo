@@ -8,7 +8,7 @@ import type router from '@/router';
     <div class="explain_view">
         <div class="explain_box">
             <text class="explain_text">
-                俺ら仲いいなああああああああああああああああああああああああああああああああああああああ
+                ああああああああああああああああああああああああああああああああああ
             </text>
         </div>
     </div>
