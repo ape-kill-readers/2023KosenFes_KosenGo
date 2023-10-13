@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type router from '@/router';
+import {useQuizeDataStore} from '../store/QuizeData'
+const QuizeData = useQuizeDataStore()
+
 
 
 </script>
@@ -12,6 +15,10 @@ import type router from '@/router';
             </text>
         </div>
     </div>
+    <button class="btn" @click="() => {
+        QuizeData.QuizeFetch()
+        console.log(QuizeData.QuizeData)
+        $router.push('quize')}">Start</button>
 </template>
 
 <style lang="scss">
