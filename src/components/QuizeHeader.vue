@@ -38,19 +38,14 @@ import { storeToRefs } from 'pinia';
     background-color:#D9D9D9;
     list-style: none;
     height: 100%;
-    
-    
     li {
       display: inline-block;
       background-color: #666;
       height: 100%;
-      width: 130px;
-      line-height: 100px;
+      width: 10vh;
+      line-height:10vh;
       font-size: large;
       text-align: center;
-      p {
-        height: 100%;
-      }
     }
   }
   

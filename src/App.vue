@@ -41,7 +41,6 @@ body{
     height: 10%;
     pointer-events: unset;
     z-index: 999;
-
     background-color: #D9D9D9;
 
 }
@@ -51,7 +50,6 @@ body{
   width: 100%;
   height: 20%;
 }
-
 
 .main {
   height: 70%;
