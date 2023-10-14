@@ -2,30 +2,30 @@
 import { ref, type onBeforeUpdate } from 'vue';
 import { useRoute } from 'vue-router';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
+import { useQuizeDataStore } from '../store/QuizeData'
 const QuizeProgressCount = useProgressCounterStore()
+const QuizeData = useQuizeDataStore()
 
 const route = useRoute();
-
-
 
 </script>
 
 <template>
-    <label class="currentStatus">
+    <div class="statusDepartment">
         <div>
-            <div class="modeBox">
-                <h2 class="modeText">10</h2>
+            <div class="ansTimeBox">
+                <h2 class="ansTimeText">10</h2>
             </div>
             <div class="leftBox">
                 <h2 class="leftText">残3</h2>
             </div>
         </div>
-    </label>
+    </div>
 
-    <div class="question">
-        <div class="questionField">
-            <div class="questionBox">
-                <text class="questionText">jijiji</text>
+    <div class="quizeDepartment">
+        <div class="quizeField">
+            <div class="quizeBox">
+                <text class="quizeText">{{ QuizeData.QuizeData.que  }}</text>
             </div>
         </div>
     </div>
@@ -34,11 +34,11 @@ const route = useRoute();
 </template>
 
 <style lang="scss">
-    .currentStatus {
+    .statusDepartment {
         display: flex;
         flex-direction: row-reverse;
     }
-    .modeBox {
+    .ansTimeBox {
         display: flex;
         background-color: #666666;
         align-items: center;
@@ -46,7 +46,7 @@ const route = useRoute();
         width: 10vh;
         height: 10vh;
     }
-    .modeText {
+    .ansTimeText {
         color: white;
     }
     .leftBox {
@@ -60,19 +60,19 @@ const route = useRoute();
     .leftText {
         color: black;
     }
-    .question {
+    .quizeDepartment {
         display: flex;
         align-items: center;
         justify-content: center;
         margin-top: 13vh;
     }
-    .questionField {
+    .quizeField {
         display: flex;
         position: absolute;
         align-items: center;
         justify-content: center;
     }
-    .questionBox {
+    .quizeBox {
         display: flex;
         width: 75vh;
         height: 40vh;
@@ -82,7 +82,7 @@ const route = useRoute();
         word-wrap: break-word;
         overflow: hidden;
     }
-    .questionText {
+    .quizeText {
         width: 75vh;
         padding-right: 4vh;
         padding-left: 4vh;
