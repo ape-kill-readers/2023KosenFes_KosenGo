@@ -11,7 +11,7 @@ const route = useRoute();
 </script>
 
 <template>
-    <label class="currentStatus">
+    <div class="statusDepartment">
         <div>
             <div class="ansTimeBox">
                 <h2 class="ansTimeText">10</h2>
@@ -20,9 +20,9 @@ const route = useRoute();
                 <h2 class="leftText">残3</h2>
             </div>
         </div>
-    </label>
+    </div>
 
-    <div class="quize">
+    <div class="quizeDepartment">
         <div class="quizeField">
             <div class="quizeBox">
                 <text class="quizeText">{{ QuizeData.QuizeData.que  }}</text>
@@ -34,7 +34,7 @@ const route = useRoute();
 </template>
 
 <style lang="scss">
-    .currentStatus {
+    .statusDepartment {
         display: flex;
         flex-direction: row-reverse;
     }
@@ -60,7 +60,7 @@ const route = useRoute();
     .leftText {
         color: black;
     }
-    .quize {
+    .quizeDepartment {
         display: flex;
         align-items: center;
         justify-content: center;
