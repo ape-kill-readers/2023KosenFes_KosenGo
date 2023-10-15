@@ -1,3 +1,4 @@
+import axios from "axios";
 import { defineStore } from "pinia";
 import { ref, type Ref } from "vue";
 
@@ -11,5 +12,16 @@ export const useProgressCounterStore = defineStore('ProgressCounter', () => {
       }
     }
 
-    return {ProgressCount, Increment}
+    async function ProgressCountReset() {
+
+      try {
+        await axios.get("http://localhost:8080/ClearQuizeProgress")
+      }catch(error) {
+        console.log(error)
+      }
+
+      ProgressCount.value = 0
+    }
+
+    return {ProgressCount, Increment, ProgressCountReset}
 });
