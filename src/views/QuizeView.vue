@@ -1,12 +1,39 @@
 <script setup lang="ts">
-import { ref, type onBeforeUpdate } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, watch } from 'vue';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
+import { useTimeUpStore } from '../store/TimeUp'
 const QuizeProgressCount = useProgressCounterStore()
 const QuizeData = useQuizeDataStore()
+const TimeUp = useTimeUpStore()
 
-const route = useRoute();
+//残り時間制御
+const timesLeft = ref<number>(10) //残り時間
+let timerObject: number
+
+watch(timesLeft, () => {
+    if(timesLeft.value == 0){
+        //時間切れ処理
+        TimeUp.toTrue()
+    }
+})
+
+watch(QuizeProgressCount, () => {
+    clearInterval(timerObject)
+    timesLeft.value = 10
+    timerObject = Number(setInterval(countDown, 1000))
+})
+
+timerObject = Number(setInterval(countDown, 1000))
+
+function countDown() {
+    if(timesLeft.value){
+        timesLeft.value--
+    }
+    else {
+        clearInterval(timerObject)
+    }
+}
 
 </script>
 
@@ -14,7 +41,7 @@ const route = useRoute();
     <div class="statusDepartment">
         <div>
             <div class="ansTimeBox">
-                <h2 class="ansTimeText">10</h2>
+                <h2 class="ansTimeText">{{ timesLeft }}</h2>
             </div>
             <div class="leftBox">
                 <h2 class="leftText">残3</h2>
@@ -25,15 +52,13 @@ const route = useRoute();
     <div class="quizeDepartment">
         <div class="quizeField">
             <div class="quizeBox">
-                <text class="quizeText">{{ QuizeData.QuizeData.que  }}</text>
+                <p class="quizeText">{{ QuizeData.QuizeData.que  }}</p>
+                <p v-if="TimeUp.isTimeUp" class="quizeText">時間切れ！（笑）</p>
             </div>
         </div>
     </div>
     
     <button @click="QuizeProgressCount.Increment()">ss</button>
-    <button @click="() => {
-        QuizeProgressCount.ProgressCountReset()
-    }">reset</button>
 </template>
 
 <style lang="scss">
