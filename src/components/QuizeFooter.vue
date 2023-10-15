@@ -28,7 +28,6 @@
         UserAnswer.value = ''
                 
     } else {
-        const LiElm = document.getElementById("judge_result") as HTMLElement
         if(JudgeResult.value) {
             JudgeResult.value.textContent = "ざんねん！w"
         }
@@ -44,7 +43,7 @@
     <div class="press_enter_view">
         <text class="press_enter_text"></text>
     </div>
-    <input v-model="UserAnswer" @keyup.enter="JudgeAnswer()" class="user_answer_input">
+    <input v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input">
     <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
 </template>
 

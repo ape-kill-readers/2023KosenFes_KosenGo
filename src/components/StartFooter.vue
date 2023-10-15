@@ -12,7 +12,7 @@
     <div class="press_enter_view">
         <text class="press_enter_text">文字入力ができる状態でEnterキーを押してね</text>
     </div>
-    <input v-model="UserAnswer" @keyup.enter="() => {$router.push('quize')}" class="user_answer_input">
+    <input v-model="UserAnswer" @keydown.enter="() => {$router.push('quize')}" class="user_answer_input">
 </template>
 
 <style>
