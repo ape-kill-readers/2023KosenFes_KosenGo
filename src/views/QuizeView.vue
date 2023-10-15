@@ -31,6 +31,9 @@ const route = useRoute();
     </div>
     
     <button @click="QuizeProgressCount.Increment()">ss</button>
+    <button @click="() => {
+        QuizeProgressCount.ProgressCountReset()
+    }">reset</button>
 </template>
 
 <style lang="scss">
