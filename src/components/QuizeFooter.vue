@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import {useQuizeDataStore} from '../store/QuizeData'
     import { useProgressCounterStore } from '@/store/QuizeProgressCounter';
+    import { useTimeUpStore } from '../store/TimeUp'
     import { onMounted, ref, watch } from 'vue';
     import { storeToRefs } from 'pinia';
 
@@ -8,6 +9,7 @@
     const ProgressCounter = useProgressCounterStore() 
     const QuizeProgressCount = useProgressCounterStore()
     const {ProgressCount} = storeToRefs(QuizeProgressCount)
+    const TimeUp = useTimeUpStore()
 
     const UserAnswer = ref('')
     const JudgeResult = ref<HTMLParagraphElement | null>()
@@ -43,7 +45,8 @@
     <div class="press_enter_view">
         <text class="press_enter_text"></text>
     </div>
-    <input v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input">
+    <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input">
+    <input v-else v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" disabled>
     <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
 </template>
 
