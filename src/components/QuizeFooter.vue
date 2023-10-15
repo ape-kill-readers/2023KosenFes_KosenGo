@@ -1,21 +1,41 @@
 <script setup lang="ts">
     import {useQuizeDataStore} from '../store/QuizeData'
     import { useProgressCounterStore } from '@/store/QuizeProgressCounter';
-    import { ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
+    import { storeToRefs } from 'pinia';
+
     const QuizeData = useQuizeDataStore()
     const ProgressCounter = useProgressCounterStore() 
+    const QuizeProgressCount = useProgressCounterStore()
+    const {ProgressCount} = storeToRefs(QuizeProgressCount)
 
     const UserAnswer = ref('')
-    const consoled = () => {
-        console.log("println")
-        UserAnswer.value = ''
-    }
+    const JudgeResult = ref<HTMLParagraphElement | null>()
+
+    watch(ProgressCount,() => {
+        if(JudgeResult.value) {
+            JudgeResult.value.textContent = ""
+        }
+    })
 
     function JudgeAnswer() {
     if (QuizeData.QuizeData.ans == UserAnswer.value){
+        if(JudgeResult.value) {
+            JudgeResult.value.textContent = "正解！w"
+        }
         QuizeData.QuizeFetch()
         ProgressCounter.Increment()
         UserAnswer.value = ''
+                
+    } else {
+        const LiElm = document.getElementById("judge_result") as HTMLElement
+        if(JudgeResult.value) {
+            JudgeResult.value.textContent = "ざんねん！w"
+        }
+        UserAnswer.value=''
+
+        console.log(JudgeResult.value)
+        
     }
 }
 </script>
@@ -25,7 +45,7 @@
         <text class="press_enter_text"></text>
     </div>
     <input v-model="UserAnswer" @keyup.enter="JudgeAnswer()" class="user_answer_input">
-    <p id="judge_result"></p>
+    <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
 </template>
 
 <style>
@@ -48,5 +68,8 @@
     .footer {
         display:block;
         background-color: white;
+    }
+    .judge_result {
+        color: black;
     }
 </style>
