@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type onBeforeUpdate,  watch } from 'vue';
+import { ref, type onBeforeUpdate, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
