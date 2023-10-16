@@ -2,33 +2,50 @@
 import { ref, watch } from 'vue';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
-import { useTimeUpStore } from '../store/TimeUp'
+import { useTimeUpStore, useTimesLeftStore } from '../store/TimeUp'
+import {usePlayerLifeStore} from '@/store/PlayerLife'
+import { storeToRefs } from 'pinia';
 const QuizeProgressCount = useProgressCounterStore()
 const QuizeData = useQuizeDataStore()
 const TimeUp = useTimeUpStore()
+const TimesLeftStore = useTimesLeftStore()
+const PlayerLife = usePlayerLifeStore()
+
+const {TimesLeft} = storeToRefs(TimesLeftStore)//残り時間
+const {isTimeUp} = storeToRefs(TimeUp)
+
 
 //残り時間制御
-const timesLeft = ref<number>(10) //残り時間
 let timerObject: number
 
-watch(timesLeft, () => {
-    if(timesLeft.value == 0){
+watch(TimesLeft, () => {
+    if(TimesLeft.value == 0){
         //時間切れ処理
         TimeUp.toTrue()
+        PlayerLife.Decrement()
+        
+        if (PlayerLife.Count < 0){
+            PlayerLife.IsNothingToTrue()
+        }
+        
     }
 })
 
+watch(isTimeUp, () => {
+    clearInterval(timerObject)
+    timerObject = Number(setInterval(countDown, 1000))
+})
 watch(QuizeProgressCount, () => {
     clearInterval(timerObject)
-    timesLeft.value = 10
+    TimesLeft.value = 10
     timerObject = Number(setInterval(countDown, 1000))
 })
 
 timerObject = Number(setInterval(countDown, 1000))
 
 function countDown() {
-    if(timesLeft.value){
-        timesLeft.value--
+    if(TimesLeft.value){
+        TimesLeft.value--
     }
     else {
         clearInterval(timerObject)
@@ -38,13 +55,15 @@ function countDown() {
 </script>
 
 <template>
+
+    
     <div class="statusDepartment">
         <div>
             <div class="ansTimeBox">
-                <h2 class="ansTimeText">{{ timesLeft }}</h2>
+                <h2 class="ansTimeText">{{ TimesLeft }}</h2>
             </div>
             <div class="leftBox">
-                <h2 class="leftText">残3</h2>
+                <h2 class="leftText">残 {{PlayerLife.Count}}</h2>
             </div>
         </div>
     </div>
