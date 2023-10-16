@@ -1,5 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue';
+    import {useQuizeDataStore} from '../store/QuizeData'
+    const QuizeData = useQuizeDataStore()
 
     const UserAnswer = ref('')
     const consoled = () => {
@@ -12,7 +14,10 @@
     <div class="press_enter_view">
         <text class="press_enter_text">文字入力ができる状態でEnterキーを押してね</text>
     </div>
-    <input v-model="UserAnswer" @keydown.enter="() => {$router.push('quize')}" class="user_answer_input">
+    <input v-model="UserAnswer" @keydown.enter="() => {
+        QuizeData.QuizeFetch()
+        console.log(QuizeData.QuizeData)
+        $router.push('quize')}" class="user_answer_input">
 </template>
 
 <style>

@@ -58,10 +58,10 @@ function countDown() {
         </div>
     </div>
     
-    <button @click="QuizeProgressCount.Increment()">ss</button>
-    <button @click="() => {
+    <!--button @click="QuizeProgressCount.Increment()">ss</button-->
+    <!--button @click="() => {
         QuizeProgressCount.ProgressCountReset()
-    }">reset</button>
+    }">reset</button-->
 </template>
 
 <style lang="scss">
