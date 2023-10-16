@@ -3,9 +3,12 @@ import { ref, watch } from 'vue';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
 import { useTimeUpStore } from '../store/TimeUp'
+import {usePlayerLifeStore} from '@/store/PlayerLife'
 const QuizeProgressCount = useProgressCounterStore()
 const QuizeData = useQuizeDataStore()
 const TimeUp = useTimeUpStore()
+const PlayerLife = usePlayerLifeStore()
+
 
 //残り時間制御
 const timesLeft = ref<number>(10) //残り時間
@@ -15,6 +18,12 @@ watch(timesLeft, () => {
     if(timesLeft.value == 0){
         //時間切れ処理
         TimeUp.toTrue()
+        PlayerLife.Decrement()
+        
+        if (PlayerLife.Count < 0){
+            PlayerLife.IsNothingToTrue()
+        }
+        
     }
 })
 
@@ -38,6 +47,8 @@ function countDown() {
 </script>
 
 <template>
+
+    
     <div class="statusDepartment">
         <div>
             <div class="ansTimeBox">
