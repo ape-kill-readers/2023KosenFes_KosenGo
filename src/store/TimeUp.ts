@@ -7,5 +7,15 @@ export const useTimeUpStore = defineStore('isTimeUp', () => {
         isTimeUp.value = true
     }
 
-    return {isTimeUp, toTrue}
+    function toFalse() {
+        isTimeUp.value = false
+    }
+
+    return {isTimeUp, toTrue, toFalse}
 });
+
+export const useTimesLeftStore = defineStore('TimesLeft', () => {
+    const TimesLeft = ref<number>(15)
+
+    return {TimesLeft}
+})
