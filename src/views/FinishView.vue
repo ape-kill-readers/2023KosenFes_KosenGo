@@ -10,7 +10,7 @@ const route = useRoute();
 
 <template>
     <dev>
-
+        
     </dev>
 </template>
 
