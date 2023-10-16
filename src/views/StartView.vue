@@ -15,10 +15,6 @@ const QuizeData = useQuizeDataStore()
             </text>
         </div>
     </div>
-    <button class="btn" @click="() => {
-        QuizeData.QuizeFetch()
-        console.log(QuizeData.QuizeData)
-        $router.push('quize')}">Start</button>
 </template>
 
 <style lang="scss">
