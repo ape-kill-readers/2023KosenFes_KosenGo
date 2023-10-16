@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, type onBeforeUpdate } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, type onBeforeUpdate,  watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
+import { storeToRefs } from 'pinia';
 const QuizeProgressCount = useProgressCounterStore()
 const QuizeData = useQuizeDataStore()
+const {isQuizeFinished} = storeToRefs(QuizeProgressCount)
 
-const route = useRoute();
-
-</script>
-
+watch(isQuizeFinished, () => {
+    $
 <template>
     <div class="statusDepartment">
         <div>
