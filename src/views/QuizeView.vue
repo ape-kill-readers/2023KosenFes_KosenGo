@@ -8,8 +8,13 @@ const QuizeProgressCount = useProgressCounterStore()
 const QuizeData = useQuizeDataStore()
 const {isQuizeFinished} = storeToRefs(QuizeProgressCount)
 
+const router = useRouter();
+
 watch(isQuizeFinished, () => {
-    $
+    router.push('/finished')
+})
+
+</script>
 <template>
     <div class="statusDepartment">
         <div>
@@ -21,6 +26,11 @@ watch(isQuizeFinished, () => {
             </div>
         </div>
     </div>
+
+    <button class="btn" @click="() => {
+        QuizeData.QuizeFetch()
+        console.log(QuizeData.QuizeData)
+        $router.push('quize')}">Start</button>
 
     <div class="quizeDepartment">
         <div class="quizeField">
