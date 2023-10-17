@@ -36,6 +36,7 @@ function toStartView() {
     width: 35vw;
     height: 10vh;
     background-color: #999;
+    border-radius: 5vh;
   }
   .text {
     margin-top: 2.5vh;
