@@ -1,7 +1,7 @@
 <script setup lang="ts">
+
 import {useQuizeDataStore} from '../store/QuizeData'
 const QuizeData = useQuizeDataStore()
-
 
 
 </script>
