@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { onMounted, watch, ref } from 'vue';
-  import {useProgressCounterStore} from '../store/QuizeProgressCounter'
+import { onMounted, watch, ref } from 'vue';
+import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { storeToRefs } from 'pinia';
 
   const QuizeProgressCount = useProgressCounterStore()
@@ -27,9 +27,9 @@ import { storeToRefs } from 'pinia';
 </script>
 
 <template>
-    <ul class="counter_list">
-        <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
-    </ul>
+  <ul class="counter_list">
+    <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
+  </ul>
 </template>
 
 <style lang="scss">
