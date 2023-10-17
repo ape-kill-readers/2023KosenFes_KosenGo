@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type router from '@/router';
 import {useQuizeDataStore} from '../store/QuizeData'
 const QuizeData = useQuizeDataStore()
 

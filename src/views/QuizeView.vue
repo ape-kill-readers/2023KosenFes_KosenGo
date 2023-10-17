@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+
+import { ref, type onBeforeUpdate, watch } from 'vue';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
 import { useTimeUpStore, useTimesLeftStore } from '../store/TimeUp'
 import {usePlayerLifeStore} from '@/store/PlayerLife'
 import { storeToRefs } from 'pinia';
+import { useRoute, useRouter } from 'vue-router'
 const QuizeProgressCount = useProgressCounterStore()
 const QuizeData = useQuizeDataStore()
 const TimeUp = useTimeUpStore()
 const TimesLeftStore = useTimesLeftStore()
 const PlayerLife = usePlayerLifeStore()
+const {isQuizeFinished} = storeToRefs(QuizeProgressCount)
+const router = useRouter();
 
 const {TimesLeft} = storeToRefs(TimesLeftStore)//残り時間
 const {isTimeUp} = storeToRefs(TimeUp)
@@ -54,8 +57,12 @@ function countDown() {
     }
 }
 
-</script>
 
+watch(isQuizeFinished, () => {
+    router.push('/finished')
+})
+
+</script>
 <template>
 
     
@@ -69,6 +76,11 @@ function countDown() {
             </div>
         </div>
     </div>
+
+    <button class="btn" @click="() => {
+        QuizeData.QuizeFetch()
+        console.log(QuizeData.QuizeData)
+        $router.push('quize')}">Start</button>
 
     <div class="quizeDepartment">
         <div class="quizeField">
