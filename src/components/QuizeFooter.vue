@@ -26,6 +26,10 @@
         TimeUp.toFalse()
         QuizeData.QuizeFetch()
         TimesLeft.value = 15;
+        
+        if (JudgeResult.value) {
+            JudgeResult.value.textContent = "";
+        }
     }
 
     function JudgeAnswer() {

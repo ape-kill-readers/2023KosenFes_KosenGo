@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
 import { useTimeUpStore, useTimesLeftStore } from '../store/TimeUp'
@@ -14,7 +15,7 @@ const PlayerLife = usePlayerLifeStore()
 const {TimesLeft} = storeToRefs(TimesLeftStore)//残り時間
 const {isTimeUp} = storeToRefs(TimeUp)
 
-
+const router = useRouter()
 //残り時間制御
 let timerObject: number
 
@@ -26,6 +27,7 @@ watch(TimesLeft, () => {
         
         if (PlayerLife.Count < 0){
             PlayerLife.IsNothingToTrue()
+            router.push("/GameOver")
         }
         
     }

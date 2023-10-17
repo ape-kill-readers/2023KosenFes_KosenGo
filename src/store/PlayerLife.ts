@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { type Ref, ref } from "vue";
 
-const DefaultPlayerLifeCount = 10
+const DefaultPlayerLifeCount = 1
 
 export const usePlayerLifeStore = defineStore("PlayerLife", () => {
     const Count = ref<number>(DefaultPlayerLifeCount)
@@ -15,6 +15,10 @@ export const usePlayerLifeStore = defineStore("PlayerLife", () => {
         IsNothing.value = true
     }
 
-    return {Count, IsNothing, Decrement, IsNothingToTrue}
+    function Init() {
+        Count.value = DefaultPlayerLifeCount;
+    }
+
+    return {Count, IsNothing, Decrement, IsNothingToTrue, Init}
     
 })
