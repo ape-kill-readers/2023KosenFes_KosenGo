@@ -11,11 +11,19 @@ export const useTimeUpStore = defineStore('isTimeUp', () => {
         isTimeUp.value = false
     }
 
-    return {isTimeUp, toTrue, toFalse}
+    function Init() {
+        isTimeUp.value = false
+    }
+
+    return {isTimeUp, toTrue, toFalse, Init }
 });
 
 export const useTimesLeftStore = defineStore('TimesLeft', () => {
     const TimesLeft = ref<number>(15)
 
-    return {TimesLeft}
+    function Init() {
+        TimesLeft.value = 15;
+    }
+
+    return {TimesLeft, Init}
 })

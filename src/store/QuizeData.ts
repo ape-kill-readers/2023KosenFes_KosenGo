@@ -26,6 +26,10 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
         }
     }
 
-    return {QuizeData, QuizeFetch}
+    function Init() {
+        QuizeData.value = {que: '', ans: ''}
+    }
+
+    return {Init,QuizeData, QuizeFetch}
     
 })

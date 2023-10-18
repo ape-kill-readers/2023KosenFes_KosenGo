@@ -18,7 +18,6 @@ const router = useRouter();
 const {TimesLeft} = storeToRefs(TimesLeftStore)//残り時間
 const {isTimeUp} = storeToRefs(TimeUp)
 
-
 //残り時間制御
 let timerObject: number
 
@@ -30,6 +29,7 @@ watch(TimesLeft, () => {
         
         if (PlayerLife.Count < 0){
             PlayerLife.IsNothingToTrue()
+            router.push("/GameOver")
         }
         
     }
