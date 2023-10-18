@@ -18,7 +18,6 @@ const router = useRouter();
 const {TimesLeft} = storeToRefs(TimesLeftStore)//残り時間
 const {isTimeUp} = storeToRefs(TimeUp)
 
-const router = useRouter()
 //残り時間制御
 let timerObject: number
 
