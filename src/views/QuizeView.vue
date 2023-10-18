@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, type onBeforeUpdate, watch } from 'vue';
+import { ref, type onBeforeUpdate, watch, onBeforeUnmount } from 'vue';
 import {useProgressCounterStore} from '../store/QuizeProgressCounter'
 import { useQuizeDataStore } from '../store/QuizeData'
 import { useTimeUpStore, useTimesLeftStore } from '../store/TimeUp'
@@ -18,7 +18,6 @@ const router = useRouter();
 const {TimesLeft} = storeToRefs(TimesLeftStore)//残り時間
 const {isTimeUp} = storeToRefs(TimeUp)
 
-
 //残り時間制御
 let timerObject: number
 
@@ -35,13 +34,17 @@ watch(TimesLeft, () => {
     }
 })
 
+onBeforeUnmount( () => {
+    clearInterval(timerObject);
+});
+
 watch(isTimeUp, () => {
     clearInterval(timerObject)
     timerObject = Number(setInterval(countDown, 1000))
 })
 watch(QuizeProgressCount, () => {
     clearInterval(timerObject)
-    TimesLeft.value = 10
+    TimesLeft.value = 15
     timerObject = Number(setInterval(countDown, 1000))
 })
 
