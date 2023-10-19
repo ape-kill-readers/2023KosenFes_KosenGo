@@ -34,6 +34,7 @@ export const useProgressCounterStore = defineStore('ProgressCounter', () => {
 
     function Init() {
       ProgressCount.value = 1;
+      isQuizeFinished.value = false;
     }
 
     return {Init,ProgressCount, Increment, ProgressCountReset, isQuizeFinished}
