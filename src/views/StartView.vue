@@ -1,7 +1,9 @@
 <script setup lang="ts">
-
+import { ref } from 'vue';
 import {useQuizeDataStore} from '../store/QuizeData'
+
 const QuizeData = useQuizeDataStore()
+const UserAnswer = ref('')
 
 
 </script>
