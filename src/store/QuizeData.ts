@@ -22,7 +22,7 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
             console.log("QuizeData.value:" + QuizeData.value.ans)
         }
         catch (error) {
-            console.log(error)
+            throw error
         }
     }
 

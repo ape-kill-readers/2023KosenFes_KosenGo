@@ -86,24 +86,38 @@ watch(isQuizeFinished, () => {
   router.push("/finished");
 });
 
-function QuizeRetry(){
-  TimeUp.toFalse();
-  QuizeData.QuizeFetch();
-  TimesLeft.value = 15;
-
+async function QuizeRetry(){
+  try {
+    await QuizeData.QuizeFetch();
+    if (JudgeResult.value) {
+      JudgeResult.value.textContent = "";
+    }
+    TimeUp.toFalse();
+    TimesLeft.value = 15;
+  }catch(err) {
+    console.log(err)
+  }
   if (JudgeResult.value) {
     JudgeResult.value.textContent = "";
   }
+  TimeUp.toFalse();
+  TimesLeft.value = 15;
 }
 
-function JudgeAnswer() {
+async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "正解！w";
     }
-    QuizeData.QuizeFetch();
-    QuizeProgressCount.Increment();
-    UserAnswer.value = "";
+
+    try {
+      await QuizeData.QuizeFetch();
+      QuizeProgressCount.Increment();
+      UserAnswer.value = "";
+    }catch(err) {
+      console.log(err)
+    }
+    
   } else {
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "ざんねん！w";
