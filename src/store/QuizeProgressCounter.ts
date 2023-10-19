@@ -9,15 +9,14 @@ const quizeLen = 3 //後で設定ファイルみたいなの作る
 
 
 export const useProgressCounterStore = defineStore('ProgressCounter', () => {
-    const ProgressCount = ref(0) as Ref<number>
+    const ProgressCount = ref(1) as Ref<number>
     const isQuizeFinished = ref(false);  //クイズ終了状態を管理するフラグだよ～ん
 
     function Increment() {
       if (ProgressCount.value < quizeLen) {
         ProgressCount.value++
-        if(ProgressCount.value == quizeLen) {
-          isQuizeFinished.value = true;
-        }
+      } else {
+        isQuizeFinished.value = true
       }
     }
 
@@ -29,12 +28,12 @@ export const useProgressCounterStore = defineStore('ProgressCounter', () => {
         console.log(error)
       }
 
-      ProgressCount.value = 0
+      ProgressCount.value = 1
     }
 
 
     function Init() {
-      ProgressCount.value = 0;
+      ProgressCount.value = 1;
     }
 
     return {Init,ProgressCount, Increment, ProgressCountReset, isQuizeFinished}

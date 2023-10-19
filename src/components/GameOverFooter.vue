@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import router from '@/router';
-import {usePlayerLifeStore} from '@/store/PlayerLife'
+    import {usePlayerLifeStore} from '@/store/PlayerLife'
     import {useQuizeDataStore} from '@/store/QuizeData'
     import {useProgressCounterStore} from '@/store/QuizeProgressCounter'
     import {useTimeUpStore, useTimesLeftStore} from '@/store/TimeUp'
