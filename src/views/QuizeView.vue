@@ -54,7 +54,7 @@ watch(isTimeUp, () => {
   clearInterval(timerObject);
   timerObject = Number(setInterval(countDown, 1000));
 });
-watch(QuizeProgressCount, () => {
+watch(ProgressCount, () => {
   clearInterval(timerObject);
   TimesLeft.value = 15;
   timerObject = Number(setInterval(countDown, 1000));
@@ -70,22 +70,20 @@ function countDown() {
   }
 }
 
+//時間制御終了
 
 watch(ProgressCount, () => {
   for(let i = 1; i <= ProgressCount.value; i++) {
     const LiElm = document.getElementById("counter" + i) as HTMLElement
     LiElm.style.backgroundColor = "#000000"
   }
+  if (JudgeResult.value) {
+    JudgeResult.value.textContent = "";
+  }
 })
 
 watch(isQuizeFinished, () => {
   router.push("/finished");
-});
-
-watch(ProgressCount, () => {
-  if (JudgeResult.value) {
-    JudgeResult.value.textContent = "";
-  }
 });
 
 function QuizeRetry(){
@@ -123,6 +121,7 @@ function JudgeAnswer() {
       <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
     </ul>
   </div>
+
   <div class="quize_main">
     <div class="statusDepartment">
       <div>
@@ -134,19 +133,6 @@ function JudgeAnswer() {
         </div>
       </div>
     </div>
-
-    <button
-      class="btn"
-      @click="
-        () => {
-          QuizeData.QuizeFetch();
-          console.log(QuizeData.QuizeData);
-          $router.push('quize');
-        }
-      "
-    >
-      Start
-    </button>
 
     <div class="quizeDepartment">
       <div class="quizeField">
@@ -167,12 +153,7 @@ function JudgeAnswer() {
     <div class="press_enter_view">
       <text class="press_enter_text"></text>
     </div>
-    <input
-      v-if="!TimeUp.isTimeUp"
-      v-model="UserAnswer"
-      @keydown.enter="JudgeAnswer()"
-      class="user_answer_input"
-    />
+    <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" />
     <button v-else class="user_answer_input" @click="QuizeRetry()">
       リトライ
     </button>
@@ -184,7 +165,7 @@ function JudgeAnswer() {
 /* header */
 
 .quize_header {
-  height: 15vh;
+  height: 10vh;
   .counter_list {
     color: aqua;
     background-color:#D9D9D9;
@@ -194,8 +175,8 @@ function JudgeAnswer() {
       display: inline-block;
       background-color: #666;
       height: 100%;
-      width: 15vh;
-      line-height:15vh;
+      width: 10vh;
+      line-height:10vh;
       font-size: large;
       text-align: center;
     }
@@ -204,7 +185,7 @@ function JudgeAnswer() {
 
 /* main */
 .quize_main {
-  height: 70vh;
+  height: 75vh;
   background-color: white;
   .statusDepartment {
     display: flex;
