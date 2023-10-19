@@ -1,17 +1,28 @@
 <script setup lang="ts">
 import { ref, type onBeforeUpdate, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
-import {useProgressCounterStore} from '../store/QuizeProgressCounter'
-import { useQuizeDataStore } from '../store/QuizeData'
-import { storeToRefs } from 'pinia';
+import {usePlayerLifeStore} from '@/store/PlayerLife'
+import {useQuizeDataStore} from '@/store/QuizeData'
+import {useProgressCounterStore} from '@/store/QuizeProgressCounter'
+import {useTimeUpStore, useTimesLeftStore} from '@/store/TimeUp'
+
+const PlayerLifeStore = usePlayerLifeStore()
+const QuizeDataStore = useQuizeDataStore()
+const ProgressCounterStore = useProgressCounterStore()
+const TimeUpStore = useTimeUpStore()
+const TimesleftStore = useTimesLeftStore()
 
 const router = useRouter();
-const ProgressCounterStore = useProgressCounterStore()
+
 
 function toStartView() {
-    router.push("/")
-    ProgressCounterStore.ProgressCount = 0
-    ProgressCounterStore.isQuizeFinished = false
+        PlayerLifeStore.Init()
+        QuizeDataStore.Init()
+        ProgressCounterStore.Init()
+        TimeUpStore.Init()
+        TimesleftStore.Init()
+
+        router.push("/")  
 }
 
 </script>
