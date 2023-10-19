@@ -8,11 +8,14 @@ const UserAnswer = ref('')
 const router = useRouter()
 async function TransitionQuizeView() {
     try {
+
+        //ここにロード画面
         await QuizeData.QuizeFetch()
         console.log(QuizeData.QuizeData)
         router.push('quize')        
     }catch (err) {
         console.log("問題をfetchできませんでした")
+        router.push("/error")
     }
 }
 

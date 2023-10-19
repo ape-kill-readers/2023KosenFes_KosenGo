@@ -88,6 +88,8 @@ watch(isQuizeFinished, () => {
 
 async function QuizeRetry(){
   try {
+
+    //ここにロード画面
     await QuizeData.QuizeFetch();
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "";
@@ -96,6 +98,7 @@ async function QuizeRetry(){
     TimesLeft.value = 15;
   }catch(err) {
     console.log(err)
+    router.push("/error")
   }
   if (JudgeResult.value) {
     JudgeResult.value.textContent = "";
@@ -111,13 +114,16 @@ async function JudgeAnswer() {
     }
 
     try {
+
+      //ここにロード画面
       await QuizeData.QuizeFetch();
       QuizeProgressCount.Increment();
       UserAnswer.value = "";
     }catch(err) {
       console.log(err)
+      router.push("/error")
     }
-    
+
   } else {
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "ざんねん！w";
