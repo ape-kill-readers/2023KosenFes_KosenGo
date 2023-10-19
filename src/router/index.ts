@@ -4,8 +4,6 @@ import QuizeView from '../views/QuizeView.vue'
 import FinishView from '../views/FinishView.vue'
 import QuizeHeader from '../components/QuizeHeader.vue'
 import QuizeFooter from '../components/QuizeFooter.vue'
-import StartHeader from '../components/StartHeader.vue'
-import StartFooter from '../components/StartFooter.vue'
 import GameOverViewVue from '@/views/GameOverView.vue'
 import GameOverFooter from '@/components/GameOverFooter.vue'
 import FinishFooter from '../components/FinishFooter.vue'
@@ -18,8 +16,6 @@ const router = createRouter({
       name: "start",
       components: {
         default: StartView,
-        header: StartHeader,
-        footer: StartFooter,
       },
     },
     {
