@@ -15,8 +15,9 @@ export const useProgressCounterStore = defineStore('ProgressCounter', () => {
     function Increment() {
       if (ProgressCount.value < quizeLen) {
         ProgressCount.value++
-      } else {
-        isQuizeFinished.value = true;
+        if(ProgressCount.value == quizeLen) {
+          isQuizeFinished.value = true;
+        }
       }
     }
 
