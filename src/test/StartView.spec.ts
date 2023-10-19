@@ -1,13 +1,27 @@
+import { test, expect, describe, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createTestingPinia } from '@pinia/testing'
+import { useQuizeDataStore } from '../store/QuizeData'
 import StartView from '../views/StartView.vue'
-import { test, expect } from 'vitest'
 
-test('初期表示', () => {
-  const wrapper = mount(StartView, {
-    props: {
-      msg: 'ああああああああああ',
-    },
+const pinia = { //mount先のコンポーネントにこの設定を適用させないとerrorでる
+  global: {
+    plugins: [createTestingPinia()]
+  }, 
+  props: {
+  }
+}
+
+describe('StartView Test', () => {
+  it('Should render あああああああああああ', () => {
+    const wrapper = mount(StartView, { pinia, props: { //ここでpiniaが適用される
+    }})
+    expect(wrapper.text()).toContain('ああああああああああああ')
   })
 
-  expect(wrapper.text()).toContain('あああああああああ')
+  it('Should be QuizeData exist', () => {
+    const QuizeDataStore = useQuizeDataStore()
+    QuizeDataStore.QuizeFetch
+    expect(QuizeDataStore.QuizeData.que).toEqual("")
+  })
 })
