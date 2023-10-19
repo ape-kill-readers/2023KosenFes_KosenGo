@@ -9,40 +9,21 @@ import router from './router';
 
 <template>
   <div class="container">
-    <header class="header">
-      <RouterView name="header"></RouterView>
-    </header>
-    <main class="main">
-      <RouterView />
-    </main>
-    <footer class="footer">
-      <RouterView name="footer"></RouterView>
-      <div>
-          
-      </div>
-    </footer>
+    <RouterView />
   </div>
 </template>
 
 <style lang="scss">
 
-body{
-  min-height: 100vh;
-  #app {
-    height: 100vh;
-  }
-}
 .container {
   height: 100%;
 }
 .header {
-    position:sticky;
     top: 0;
     height: 10%;
     pointer-events: unset;
     z-index: 999;
     background-color: #D9D9D9;
-
 }
 
 .footer {
