@@ -3,6 +3,7 @@ import StartView from '../views/StartView.vue'
 import QuizeView from '../views/QuizeView.vue'
 import FinishView from '../views/FinishView.vue'
 import GameOverViewVue from '@/views/GameOverView.vue'
+import QuizeFetchErrorView from '@/views/QuizeFetchErrorView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,12 @@ const router = createRouter({
       components: {
         default: FinishView,
       },
+    },
+
+    {
+      path: "/error",
+      name: "error",
+      component:QuizeFetchErrorView,
     },
   ],
 });
