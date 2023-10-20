@@ -34,6 +34,10 @@ async function TransitionQuizeView() {
     }
 }
 
+const vFocus = {
+  mounted: (el: HTMLInputElement) => el.focus()
+}
+
 
 </script>
 
@@ -56,7 +60,7 @@ async function TransitionQuizeView() {
                 <div class="press_enter_view">
                     <text class="press_enter_text">文字入力ができる状態でEnterキーを押してね</text>
                 </div>
-                <input v-model="UserAnswer" @keydown.enter="TransitionQuizeView" class="user_answer_input">
+                <input v-model="UserAnswer" @keydown.enter="TransitionQuizeView" class="user_answer_input" v-focus="vFocus">
             </div>
         </div>
         <div :class="RoutingAnimation" v-if="RoutingAnimation">
