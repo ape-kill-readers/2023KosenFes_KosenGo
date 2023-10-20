@@ -9,6 +9,7 @@
 
 .container {
   height: 100%;
+  width: 100%;
 }
 .header {
     top: 0;
