@@ -34,6 +34,10 @@ onMounted(() => {
     }
 })
 
+const vFocus = {
+  mounted: (el: HTMLInputElement) => el.focus()
+}
+
 //残り時間制御
 let timerObject: number;
 
@@ -173,7 +177,7 @@ async function JudgeAnswer() {
     <div class="press_enter_view">
       <text class="press_enter_text"></text>
     </div>
-    <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" />
+    <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" v-focus="vFocus" />
     <button v-else class="user_answer_input" @click="QuizeRetry()">
       リトライ
     </button>
