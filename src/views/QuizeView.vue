@@ -160,8 +160,8 @@ async function JudgeAnswer() {
 
     <div class="quizeDepartment">
       <div class="quizeField">
-        <div class="quizeBox">
-          <p class="quizeText">{{ QuizeData.QuizeData.que }}</p>
+        <div class="quizeBox font-size-animation">
+          <p class="quizeText font-size-animation" :class="{ 'animation-paused': TimeUp.isTimeUp }" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
           <p v-if="TimeUp.isTimeUp" class="quizeText">時間切れ！（笑）</p>
         </div>
       </div>
@@ -237,6 +237,24 @@ async function JudgeAnswer() {
       }
     }
   }
+
+  .font-size-animation {
+    animation: font-grow 16s linear 1;
+  }
+
+  .animation-paused {
+    animation-play-state: paused;
+  }
+
+  @keyframes font-grow {
+    0% {
+      font-size: 2vh;
+    }
+    100% {
+      font-size: 8vh;
+    }
+  }
+
   .quizeDepartment {
     display: flex;
     align-items: center;
