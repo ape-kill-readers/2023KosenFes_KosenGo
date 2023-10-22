@@ -101,6 +101,7 @@ async function QuizeRetry(){
     TimeUp.toFalse();
     
     QuizeTextAnimation.value = "quizeText"
+    UserAnswer.value = "";
   }catch(err) {
     console.log(err)
     router.push("/error")
