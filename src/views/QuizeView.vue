@@ -77,9 +77,6 @@ watch(ProgressCount, () => {
     const LiElm = document.getElementById("counter" + i) as HTMLElement
     LiElm.style.backgroundColor = "#000000"
   }
-  if (JudgeResult.value) {
-    JudgeResult.value.textContent = "";
-  }
 })
 
 async function QuizeRetry(){
