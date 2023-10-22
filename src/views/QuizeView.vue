@@ -29,6 +29,9 @@ const router = useRouter();
 
 //定数
 const quizeLen = 3
+const vFocus = {
+  mounted: (el: HTMLInputElement) => el.focus()
+}
 
 onBeforeUnmount(() => {
   clearInterval(timerObject);
@@ -43,26 +46,8 @@ onMounted(() => {
     QuizeTextAnimation.value = "quizeText"
 })
 
-const vFocus = {
-  mounted: (el: HTMLInputElement) => el.focus()
-}
-
 //残り時間制御
 let timerObject: number;
-
-watch(TimesLeft, () => {
-  if (TimesLeft.value == 0) {
-    //時間切れ処理
-    TimeUp.toTrue();
-    PlayerLife.Decrement();
-
-    if (PlayerLife.Count < 0) {
-      PlayerLife.IsNothingToTrue();
-      router.push("/GameOver");
-    }
-  }
-});
-
 
 timerObject = Number(setInterval(countDown, 1000));
 
@@ -71,6 +56,14 @@ function countDown() {
     TimesLeft.value--;
   } else {
     clearInterval(timerObject);
+
+    TimeUp.toTrue();
+    PlayerLife.Decrement();
+
+    if (PlayerLife.Count < 0) {
+      PlayerLife.IsNothingToTrue();
+      router.push("/GameOver");
+    }
   }
 }
 //時間制御終了
@@ -288,7 +281,7 @@ function resetTimer() {
           font-size: 4vh;
           color: red;
 
-          animation: font-grow 16s linear;
+          animation: font-grow 17s linear;
           
           @keyframes font-grow {
           0% {
