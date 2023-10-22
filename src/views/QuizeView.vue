@@ -77,9 +77,6 @@ watch(ProgressCount, () => {
     const LiElm = document.getElementById("counter" + i) as HTMLElement
     LiElm.style.backgroundColor = "#000000"
   }
-  if (JudgeResult.value) {
-    JudgeResult.value.textContent = "";
-  }
 })
 
 async function QuizeRetry(){
@@ -103,8 +100,6 @@ async function QuizeRetry(){
   if (JudgeResult.value) {
     JudgeResult.value.textContent = "";
   }
-  TimeUp.toFalse();
-  TimesLeft.value = 15;
 }
 
 async function JudgeAnswer() {
@@ -148,58 +143,64 @@ function resetTimer() {
 </script>
 
 <template>
-  <div class="quize_header">
-    <ul class="counter_list">
-      <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
-    </ul>
-  </div>
+  <div class="container">
+    <div class="quize_content">
+      <div class="quize_header">
+        <ul class="counter_list">
+          <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
+        </ul>
+      </div>
 
 
 
-  <div class="quize_main">
-    <div class="statusDepartment">
-      <div>
-        <div class="ansTimeBox">
-          <h2 class="ansTimeText">{{ TimesLeft }}</h2>
+      <div class="quize_main">
+        <div class="statusDepartment">
+          <div>
+            <div class="ansTimeBox">
+              <h2 class="ansTimeText">{{ TimesLeft }}</h2>
+            </div>
+            <div class="leftBox">
+              <h2 class="leftText">残 {{ PlayerLife.Count }}</h2>
+            </div>
+          </div>
         </div>
-        <div class="leftBox">
-          <h2 class="leftText">残 {{ PlayerLife.Count }}</h2>
+        <div class="quizeDepartment">
+          <div class="quizeField">
+            <div class="quizeBox">
+              <p  :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
+              <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="quizeDepartment">
-      <div class="quizeField">
-        <div class="quizeBox font-size-animation">
-          <p  :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
-          <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+
+      <!--button @click="QuizeProgressCount.Increment()">ss</button-->
+      <!--button @click="() => {
+            QuizeProgressCount.ProgressCountReset()
+        }">reset</button-->
+
+
+      <div class="quize_footer">
+        <div class="press_enter_view">
+          <text class="press_enter_text"></text>
         </div>
+        <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" v-focus="vFocus" />
+        <button v-else class="user_answer_input" @click="QuizeRetry()">
+          リトライ
+        </button>
+        <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
       </div>
     </div>
-  </div>
-
-  <!--button @click="QuizeProgressCount.Increment()">ss</button-->
-  <!--button @click="() => {
-        QuizeProgressCount.ProgressCountReset()
-    }">reset</button-->
-
-
-  <div class="quize_footer">
-    <div class="press_enter_view">
-      <text class="press_enter_text"></text>
-    </div>
-    <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" v-focus="vFocus" />
-    <button v-else class="user_answer_input" @click="QuizeRetry()">
-      リトライ
-    </button>
-    <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
+    <div v-if="!TimeUp.isTimeUp" :class="{'warning': TimesLeft.valueOf() <= 5}"></div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 /* header */
 
 .quize_header {
   height: 10vh;
+  width: 100vw;
   .counter_list {
     color: aqua;
     background-color:#D9D9D9;
@@ -221,6 +222,7 @@ function resetTimer() {
 .quize_main {
   height: 75vh;
   background-color: white;
+  width: 100vw;
   .statusDepartment {
     display: flex;
     flex-direction: row-reverse;
@@ -303,6 +305,7 @@ function resetTimer() {
   display: block;
   height: 15vh;
   background-color: white;
+  width: 100vw;
   .press_enter_view {
     width: 50%;
     height: 15%;
@@ -326,6 +329,28 @@ function resetTimer() {
   }
   .judge_result {
     color: black;
+  }
+}
+
+/*Flash animation*/ 
+.container {
+  display: flex;
+}
+
+.warning {
+  display: flex;
+  animation: flash 1s linear infinite;
+  background-color: red;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+
+  @keyframes flash {
+    0% { opacity: 0 }
+    25% { opacity: 0.125 }
+    50% { opacity: 0.25 }
+    75% { opacity: 0.125 }
+    100% { opacity: 0 }
   }
 }
 </style>
