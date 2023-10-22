@@ -20,6 +20,7 @@ const { isTimeUp } = storeToRefs(TimeUp);
 
 const UserAnswer = ref("");
 const JudgeResult = ref<HTMLParagraphElement | null>();
+const QuizeTextAnimation = ref('')
 
 const router = useRouter();
 
@@ -32,6 +33,8 @@ onMounted(() => {
         const LiElm = document.getElementById("counter" + i) as HTMLElement
         LiElm.style.backgroundColor = "#000000"
     }
+
+    QuizeTextAnimation.value = "quizeText"
 })
 
 const vFocus = {
@@ -54,15 +57,6 @@ watch(TimesLeft, () => {
   }
 });
 
-watch(isTimeUp, () => {
-  clearInterval(timerObject);
-  timerObject = Number(setInterval(countDown, 1000));
-});
-watch(ProgressCount, () => {
-  clearInterval(timerObject);
-  TimesLeft.value = 15;
-  timerObject = Number(setInterval(countDown, 1000));
-});
 
 timerObject = Number(setInterval(countDown, 1000));
 
@@ -92,14 +86,21 @@ watch(isQuizeFinished, () => {
 
 async function QuizeRetry(){
   try {
-
+    
+    QuizeTextAnimation.value = ""
     //ここにロード画面
     await QuizeData.QuizeFetch();
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "";
     }
-    TimeUp.toFalse();
+
+    //timerReset!!
     TimesLeft.value = 15;
+    clearInterval(timerObject);
+    timerObject = Number(setInterval(countDown, 1000));
+    TimeUp.toFalse();
+    
+    QuizeTextAnimation.value = "quizeText"
   }catch(err) {
     console.log(err)
     router.push("/error")
@@ -118,11 +119,20 @@ async function JudgeAnswer() {
     }
 
     try {
-
+      QuizeTextAnimation.value = ""
       //ここにロード画面
       await QuizeData.QuizeFetch();
       QuizeProgressCount.Increment();
       UserAnswer.value = "";
+      
+      //timerReset!!
+      TimesLeft.value = 15;
+      clearInterval(timerObject);
+      timerObject = Number(setInterval(countDown, 1000));
+      TimeUp.toFalse();
+    
+      QuizeTextAnimation.value = "quizeText"
+
     }catch(err) {
       console.log(err)
       router.push("/error")
@@ -146,6 +156,8 @@ async function JudgeAnswer() {
     </ul>
   </div>
 
+
+
   <div class="quize_main">
     <div class="statusDepartment">
       <div>
@@ -157,12 +169,11 @@ async function JudgeAnswer() {
         </div>
       </div>
     </div>
-
     <div class="quizeDepartment">
       <div class="quizeField">
         <div class="quizeBox font-size-animation">
-          <p class="quizeText font-size-animation" :class="{ 'animation-paused': TimeUp.isTimeUp }" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
-          <p v-if="TimeUp.isTimeUp" class="quizeText">時間切れ！（笑）</p>
+          <p  :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
+          <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
         </div>
       </div>
     </div>
@@ -172,6 +183,7 @@ async function JudgeAnswer() {
   <!--button @click="() => {
         QuizeProgressCount.ProgressCountReset()
     }">reset</button-->
+
 
   <div class="quize_footer">
     <div class="press_enter_view">
@@ -238,22 +250,11 @@ async function JudgeAnswer() {
     }
   }
 
-  .font-size-animation {
-    animation: font-grow 16s linear 1;
-  }
-
   .animation-paused {
     animation-play-state: paused;
   }
 
-  @keyframes font-grow {
-    0% {
-      font-size: 2vh;
-    }
-    100% {
-      font-size: 8vh;
-    }
-  }
+
 
   .quizeDepartment {
     display: flex;
@@ -281,6 +282,17 @@ async function JudgeAnswer() {
           text-align: center;
           font-size: 4vh;
           color: red;
+
+          animation: font-grow 16s linear;
+          
+          @keyframes font-grow {
+          0% {
+            font-size: 2vh;
+          }
+          100% {
+            font-size: 8vh;
+          }
+        }
         }
       }
     }
