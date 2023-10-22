@@ -7,22 +7,28 @@ import { useRouter } from "vue-router";
 import { useProgressCounterStore } from "@/store/QuizeProgressCounter";
 import { useTimeUpStore, useTimesLeftStore } from "../store/TimeUp";
 
+//store
 const QuizeProgressCount = useProgressCounterStore();
 const QuizeData = useQuizeDataStore();
 const TimeUp = useTimeUpStore();
 const TimesLeftStore = useTimesLeftStore();
 const PlayerLife = usePlayerLifeStore();
 
+//リアクティビリティ化したStore
 const { ProgressCount } = storeToRefs(QuizeProgressCount);
-const { isQuizeFinished } = storeToRefs(QuizeProgressCount);
 const { TimesLeft } = storeToRefs(TimesLeftStore); //残り時間
 const { isTimeUp } = storeToRefs(TimeUp);
 
+//リアクティビリティ
 const UserAnswer = ref("");
 const JudgeResult = ref<HTMLParagraphElement | null>();
 const QuizeTextAnimation = ref('')
 
+//router
 const router = useRouter();
+
+//定数
+const quizeLen = 3
 
 onBeforeUnmount(() => {
   clearInterval(timerObject);
@@ -71,6 +77,10 @@ function countDown() {
 //時間制御終了
 
 watch(ProgressCount, () => {
+  if (ProgressCount.value == (quizeLen + 1)){
+    router.push('/finished')
+  }
+
   for(let i = 1; i <= ProgressCount.value; i++) {
     const LiElm = document.getElementById("counter" + i) as HTMLElement
     LiElm.style.backgroundColor = "#000000"
@@ -79,10 +89,6 @@ watch(ProgressCount, () => {
     JudgeResult.value.textContent = "";
   }
 })
-
-watch(isQuizeFinished, () => {
-  router.push("/finished");
-});
 
 async function QuizeRetry(){
   try {
@@ -198,7 +204,7 @@ async function JudgeAnswer() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 /* header */
 
 .quize_header {
