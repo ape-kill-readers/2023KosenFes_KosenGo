@@ -73,7 +73,6 @@ function countDown() {
     clearInterval(timerObject);
   }
 }
-
 //時間制御終了
 
 watch(ProgressCount, () => {
@@ -100,11 +99,7 @@ async function QuizeRetry(){
       JudgeResult.value.textContent = "";
     }
 
-    //timerReset!!
-    TimesLeft.value = 15;
-    clearInterval(timerObject);
-    timerObject = Number(setInterval(countDown, 1000));
-    TimeUp.toFalse();
+    resetTimer()
     
     QuizeTextAnimation.value = "quizeText"
     UserAnswer.value = "";
@@ -128,16 +123,12 @@ async function JudgeAnswer() {
     try {
       QuizeTextAnimation.value = ""
       //ここにロード画面
+
       await QuizeData.QuizeFetch();
       QuizeProgressCount.Increment();
       UserAnswer.value = "";
-      
-      //timerReset!!
-      TimesLeft.value = 15;
-      clearInterval(timerObject);
-      timerObject = Number(setInterval(countDown, 1000));
-      TimeUp.toFalse();
     
+      resetTimer()
       QuizeTextAnimation.value = "quizeText"
 
     }catch(err) {
@@ -153,6 +144,13 @@ async function JudgeAnswer() {
 
     console.log(JudgeResult.value);
   }
+}
+
+function resetTimer() {
+  TimesLeft.value = 15;
+  clearInterval(timerObject);
+  timerObject = Number(setInterval(countDown, 1000));
+  TimeUp.toFalse();
 }
 </script>
 
