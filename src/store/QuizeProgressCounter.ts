@@ -15,8 +15,8 @@ export const useProgressCounterStore = defineStore('ProgressCounter', () => {
 
     function Init() {
       ProgressCount.value = 1;
-      ProgressCountReset()
+      
     }
 
-    return {Init,ProgressCount, Increment, ProgressCountReset}
+    return {Init,ProgressCount, Increment}
 });
