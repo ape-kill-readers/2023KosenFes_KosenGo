@@ -4,28 +4,19 @@ import { ref, watch, type Ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type router from "@/router";
 
-const quizeLen = 3 //後で設定ファイルみたいなの作る
-
-
-
 export const useProgressCounterStore = defineStore('ProgressCounter', () => {
-    const ProgressCount = ref(1) as Ref<number>
-    const isQuizeFinished = ref(false);  //クイズ終了状態を管理するフラグだよ～ん
+    const ProgressCount = ref(1) as Ref<number> //クイズ終了状態を管理するフラグだよ～ん
 
     function Increment() {
-      if (ProgressCount.value < quizeLen) {
-        ProgressCount.value++
-      } else {
-        isQuizeFinished.value = true
-      }
+      ProgressCount.value++
     }
 
 
 
     function Init() {
       ProgressCount.value = 1;
-      isQuizeFinished.value = false;
+      ProgressCountReset()
     }
 
-    return {Init,ProgressCount, Increment, isQuizeFinished}
+    return {Init,ProgressCount, Increment, ProgressCountReset}
 });

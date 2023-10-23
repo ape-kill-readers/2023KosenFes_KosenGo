@@ -7,21 +7,31 @@ import { useRouter } from "vue-router";
 import { useProgressCounterStore } from "@/store/QuizeProgressCounter";
 import { useTimeUpStore, useTimesLeftStore } from "../store/TimeUp";
 
+//store
 const QuizeProgressCount = useProgressCounterStore();
 const QuizeData = useQuizeDataStore();
 const TimeUp = useTimeUpStore();
 const TimesLeftStore = useTimesLeftStore();
 const PlayerLife = usePlayerLifeStore();
 
+//リアクティビリティ化したStore
 const { ProgressCount } = storeToRefs(QuizeProgressCount);
-const { isQuizeFinished } = storeToRefs(QuizeProgressCount);
 const { TimesLeft } = storeToRefs(TimesLeftStore); //残り時間
 const { isTimeUp } = storeToRefs(TimeUp);
 
+//リアクティビリティ
 const UserAnswer = ref("");
 const JudgeResult = ref<HTMLParagraphElement | null>();
+const QuizeTextAnimation = ref('')
 
+//router
 const router = useRouter();
+
+//定数
+const quizeLen = 3
+const vFocus = {
+  mounted: (el: HTMLInputElement) => el.focus()
+}
 
 onBeforeUnmount(() => {
   clearInterval(timerObject);
@@ -32,37 +42,12 @@ onMounted(() => {
         const LiElm = document.getElementById("counter" + i) as HTMLElement
         LiElm.style.backgroundColor = "#000000"
     }
-})
 
-const vFocus = {
-  mounted: (el: HTMLInputElement) => el.focus()
-}
+    QuizeTextAnimation.value = "quizeText"
+})
 
 //残り時間制御
 let timerObject: number;
-
-watch(TimesLeft, () => {
-  if (TimesLeft.value == 0) {
-    //時間切れ処理
-    TimeUp.toTrue();
-    PlayerLife.Decrement();
-
-    if (PlayerLife.Count < 0) {
-      PlayerLife.IsNothingToTrue();
-      router.push("/GameOver");
-    }
-  }
-});
-
-watch(isTimeUp, () => {
-  clearInterval(timerObject);
-  timerObject = Number(setInterval(countDown, 1000));
-});
-watch(ProgressCount, () => {
-  clearInterval(timerObject);
-  TimesLeft.value = 15;
-  timerObject = Number(setInterval(countDown, 1000));
-});
 
 timerObject = Number(setInterval(countDown, 1000));
 
@@ -71,35 +56,43 @@ function countDown() {
     TimesLeft.value--;
   } else {
     clearInterval(timerObject);
+
+    TimeUp.toTrue();
+    PlayerLife.Decrement();
+
+    if (PlayerLife.Count < 0) {
+      PlayerLife.IsNothingToTrue();
+      router.push("/GameOver");
+    }
   }
 }
-
 //時間制御終了
 
 watch(ProgressCount, () => {
+  if (ProgressCount.value == (quizeLen + 1)){
+    router.push('/finished')
+  }
+
   for(let i = 1; i <= ProgressCount.value; i++) {
     const LiElm = document.getElementById("counter" + i) as HTMLElement
     LiElm.style.backgroundColor = "#000000"
   }
-  if (JudgeResult.value) {
-    JudgeResult.value.textContent = "";
-  }
 })
-
-watch(isQuizeFinished, () => {
-  router.push("/finished");
-});
 
 async function QuizeRetry(){
   try {
-
+    
+    QuizeTextAnimation.value = ""
     //ここにロード画面
     await QuizeData.QuizeFetch();
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "";
     }
-    TimeUp.toFalse();
-    TimesLeft.value = 15;
+
+    resetTimer()
+    
+    QuizeTextAnimation.value = "quizeText"
+    UserAnswer.value = "";
   }catch(err) {
     console.log(err)
     router.push("/error")
@@ -107,8 +100,6 @@ async function QuizeRetry(){
   if (JudgeResult.value) {
     JudgeResult.value.textContent = "";
   }
-  TimeUp.toFalse();
-  TimesLeft.value = 15;
 }
 
 async function JudgeAnswer() {
@@ -118,11 +109,16 @@ async function JudgeAnswer() {
     }
 
     try {
-
+      QuizeTextAnimation.value = ""
       //ここにロード画面
+
       await QuizeData.QuizeFetch();
       QuizeProgressCount.Increment();
       UserAnswer.value = "";
+    
+      resetTimer()
+      QuizeTextAnimation.value = "quizeText"
+
     }catch(err) {
       console.log(err)
       router.push("/error")
@@ -137,51 +133,65 @@ async function JudgeAnswer() {
     console.log(JudgeResult.value);
   }
 }
+
+function resetTimer() {
+  TimesLeft.value = 15;
+  clearInterval(timerObject);
+  timerObject = Number(setInterval(countDown, 1000));
+  TimeUp.toFalse();
+}
 </script>
 
 <template>
-  <div class="quize_header">
-    <ul class="counter_list">
-      <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
-    </ul>
-  </div>
+  <div class="container">
+    <div class="quize_content">
+      <div class="quize_header">
+        <ul class="counter_list">
+          <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
+        </ul>
+      </div>
 
-  <div class="quize_main">
-    <div class="statusDepartment">
-      <div>
-        <div class="ansTimeBox">
-          <h2 class="ansTimeText">{{ TimesLeft }}</h2>
+
+
+      <div class="quize_main">
+        <div class="statusDepartment">
+          <div>
+            <div class="ansTimeBox">
+              <h2 class="ansTimeText">{{ TimesLeft }}</h2>
+            </div>
+            <div class="leftBox">
+              <h2 class="leftText">残 {{ PlayerLife.Count }}</h2>
+            </div>
+          </div>
         </div>
-        <div class="leftBox">
-          <h2 class="leftText">残 {{ PlayerLife.Count }}</h2>
+        <div class="quizeDepartment">
+          <div class="quizeField">
+            <div class="quizeBox">
+              <p  :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
+              <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="quizeDepartment">
-      <div class="quizeField">
-        <div class="quizeBox">
-          <p class="quizeText">{{ QuizeData.QuizeData.que }}</p>
-          <p v-if="TimeUp.isTimeUp" class="quizeText">時間切れ！（笑）</p>
+      <!--button @click="QuizeProgressCount.Increment()">ss</button-->
+      <!--button @click="() => {
+            QuizeProgressCount.ProgressCountReset()
+        }">reset</button-->
+
+
+      <div class="quize_footer">
+        <div class="press_enter_view">
+          <text class="press_enter_text"></text>
         </div>
+        <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" v-focus="vFocus" />
+        <button v-else class="user_answer_input" @click="QuizeRetry()">
+          リトライ
+        </button>
+        <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
       </div>
     </div>
-  </div>
-
-  <!--button @click="QuizeProgressCount.Increment()">ss</button-->
-  <!--button @click="() => {
-        QuizeProgressCount.ProgressCountReset()
-    }">reset</button-->
-
-  <div class="quize_footer">
-    <div class="press_enter_view">
-      <text class="press_enter_text"></text>
-    </div>
-    <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" v-focus="vFocus" />
-    <button v-else class="user_answer_input" @click="QuizeRetry()">
-      リトライ
-    </button>
-    <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
+    <div v-if="!TimeUp.isTimeUp" :class="{'warning': TimesLeft.valueOf() <= 5}"></div>
   </div>
 </template>
 
@@ -190,6 +200,7 @@ async function JudgeAnswer() {
 
 .quize_header {
   height: 10vh;
+  width: 100vw;
   .counter_list {
     color: aqua;
     background-color:#D9D9D9;
@@ -211,6 +222,7 @@ async function JudgeAnswer() {
 .quize_main {
   height: 75vh;
   background-color: white;
+  width: 100vw;
   .statusDepartment {
     display: flex;
     flex-direction: row-reverse;
@@ -237,6 +249,13 @@ async function JudgeAnswer() {
       }
     }
   }
+
+  .animation-paused {
+    animation-play-state: paused;
+  }
+
+
+
   .quizeDepartment {
     display: flex;
     align-items: center;
@@ -263,6 +282,17 @@ async function JudgeAnswer() {
           text-align: center;
           font-size: 4vh;
           color: red;
+
+          animation: font-grow 17s linear;
+          
+          @keyframes font-grow {
+          0% {
+            font-size: 2vh;
+          }
+          100% {
+            font-size: 8vh;
+          }
+        }
         }
       }
     }
@@ -275,6 +305,7 @@ async function JudgeAnswer() {
   display: block;
   height: 15vh;
   background-color: white;
+  width: 100vw;
   .press_enter_view {
     width: 50%;
     height: 15%;
@@ -298,6 +329,28 @@ async function JudgeAnswer() {
   }
   .judge_result {
     color: black;
+  }
+}
+
+/*Flash animation*/ 
+.container {
+  display: flex;
+}
+
+.warning {
+  display: flex;
+  animation: flash 1s linear infinite;
+  background-color: red;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+
+  @keyframes flash {
+    0% { opacity: 0 }
+    25% { opacity: 0.125 }
+    50% { opacity: 0.25 }
+    75% { opacity: 0.125 }
+    100% { opacity: 0 }
   }
 }
 </style>
