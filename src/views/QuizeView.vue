@@ -27,6 +27,7 @@ const { isTimeUp } = storeToRefs(TimeUp);
 const UserAnswer = ref("");
 const JudgeResult = ref<HTMLParagraphElement | null>();
 const QuizeTextAnimation = ref('');
+const PreviousUserAnswer = ref('');
 const questionImages = [question1, question2, question3, question4];
 
 //router
@@ -109,7 +110,8 @@ async function JudgeAnswer() {
     }
 
     try {
-      QuizeTextAnimation.value = ""
+      PreviousUserAnswer.value = "";
+      QuizeTextAnimation.value = "";
       //ここにロード画面
 
       await QuizeData.QuizeFetch();
@@ -128,6 +130,7 @@ async function JudgeAnswer() {
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "ざんねん！w";
     }
+    PreviousUserAnswer.value = UserAnswer.value;
     UserAnswer.value = "";
 
     console.log(JudgeResult.value);
@@ -167,6 +170,10 @@ function resetTimer() {
         <div class="quizeDepartment">
           <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
           <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+          <div v-if="!TimeUp.isTimeUp && PreviousUserAnswer" class="previousBox">
+            <p class="previousAnswer">直前の解答</p>
+            <p class="previousText">{{ PreviousUserAnswer }}</p>
+          </div>
         </div>
       </div>
 
@@ -260,6 +267,7 @@ function resetTimer() {
       -webkit-text-stroke: 3px black;
       font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
       font-weight: bold;
+      position: absolute;
 
       animation: font-grow 17s linear;
       
@@ -268,8 +276,33 @@ function resetTimer() {
           font-size: 8vh;
         }
         100% {
-          font-size: 32vh;
+          font-size: 50vh;
         }
+      }
+    }
+    .previousBox {
+      display: flex;
+      justify-content: center;
+      margin-top: 80vh;
+      background-color: #D9D9D9;
+      opacity: 1;
+      position: absolute;
+      width: 40vw;
+      height: 13vh;
+      .previousAnswer {
+        color: #2D9CEC;
+        -webkit-text-stroke: 1.4px black;
+        font-weight: 1000;
+        text-align: center;
+        font-size: 3vh;
+      }
+      .previousText {
+        color: #fff;
+        -webkit-text-stroke: 3px black;
+        font-weight: 1000;
+        font-size: 6vh;
+        position: absolute;
+        margin-top: 3vh;
       }
     }
   }
