@@ -20,23 +20,12 @@ export const useProgressCounterStore = defineStore('ProgressCounter', () => {
       }
     }
 
-    async function ProgressCountReset() {
-
-      try {
-        await axios.get("http://localhost:8080/ClearQuizeProgress")
-      }catch(error) {
-        console.log(error)
-      }
-
-      ProgressCount.value = 1
-    }
 
 
     function Init() {
       ProgressCount.value = 1;
       isQuizeFinished.value = false;
-      ProgressCountReset()
     }
 
-    return {Init,ProgressCount, Increment, ProgressCountReset, isQuizeFinished}
+    return {Init,ProgressCount, Increment, isQuizeFinished}
 });

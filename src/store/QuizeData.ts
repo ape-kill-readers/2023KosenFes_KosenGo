@@ -14,7 +14,7 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
 
     async function QuizeFetch() {
         try {
-            const response = await axios.get(`http://localhost:8080/QuizeFetch?mode="${mode.value}"`)
+            const response = await axios.get(`http://localhost:8080/QuizeFetch?mode=${mode.value}`)
             console.log(response.data)
 
             QuizeData.value.ans = response.data.ans
@@ -29,7 +29,7 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
 
     async function ModeReset() {
         try {
-            await axios.get(`http://localhost:8080/ClearQuizeProgress?mode="${mode.value}"`)
+            await axios.get(`http://localhost:8080/ClearQuizeProgress?mode=${mode.value}`)
           }catch(error) {
             console.log(error)
           }
@@ -39,6 +39,6 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
         QuizeData.value = {que: '', ans: ''}
     }
 
-    return {Init,QuizeData, QuizeFetch, ModeReset}
+    return {Init,QuizeData, QuizeFetch, ModeReset, mode}
     
 })

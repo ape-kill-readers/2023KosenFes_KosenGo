@@ -7,9 +7,19 @@ const QuizeData = useQuizeDataStore()
 const UserAnswer = ref('')
 const router = useRouter()
 async function TransitionQuizeView() {
+
+    QuizeData.mode = UserAnswer.value
+
+
+    try {
+        console.log("aaaaddd")
+        await QuizeData.ModeReset()
+    } catch(error) {
+        console.log("aaaaaaa")
+    }
     try {
 
-        //ここにロード画面
+        //ここにロード画面       
         await QuizeData.QuizeFetch()
         console.log(QuizeData.QuizeData)
         router.push('quize')        
