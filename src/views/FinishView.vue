@@ -53,44 +53,44 @@ function toStartView() {
             <div class="column">
               <div class="div-3">
                 <div style="display: flex">
-                  <div class="div-4">A</div>
-                  <div class="div-4 absolute">A</div>
+                  <div class="div-4 up-in">A</div>
+                  <div class="div-4 absolute down-in">A</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-5">L</div>
-                  <div class="div-5 absolute">L</div>
+                  <div class="div-5 up-in">L</div>
+                  <div class="div-5 absolute down-in">L</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-6">L</div>
-                  <div class="div-6 absolute">L</div>
+                  <div class="div-6 up-in">L</div>
+                  <div class="div-6 absolute down-in">L</div>
                 </div>
               </div>
             </div>
             <div class="column-2">
               <div class="div-7">
                 <div style="display: flex">
-                  <div class="div-8">C</div>
-                  <div class="div-8 absolute">C</div>
+                  <div class="div-8 up-in">C</div>
+                  <div class="div-8 absolute down-in">C</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-9">L</div>
-                  <div class="div-9 absolute">L</div>
+                  <div class="div-9 up-in">L</div>
+                  <div class="div-9 absolute down-in">L</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-10">E</div>
-                  <div class="div-10 absolute">E</div>
+                  <div class="div-10 up-in">E</div>
+                  <div class="div-10 absolute down-in">E</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-11">A</div>
-                  <div class="div-11 absolute">A</div>
+                  <div class="div-11 up-in">A</div>
+                  <div class="div-11 absolute down-in">A</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-12">R</div>
-                  <div class="div-12 absolute">R</div>
+                  <div class="div-12 up-in">R</div>
+                  <div class="div-12 absolute down-in">R</div>
                 </div>
                 <div style="display: flex">
-                  <div class="div-13">!</div>
-                  <div class="div-13 absolute">!</div>
+                  <div class="div-13 up-in">!</div>
+                  <div class="div-13 absolute down-in">!</div>
                 </div>
               </div>
             </div>
@@ -171,20 +171,6 @@ function toStartView() {
       margin-top: -20vh;
       margin-bottom: 20vh;
     }
-
-    @keyframes up_anime{
-      from {
-        opacity: 0;
-        transform: translateY(100vh);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    animation-name: up_anime;
-    animation-duration: 0.5s;
-    animation-fill-mode:both;
   }
 
   .div-4 {
@@ -241,18 +227,6 @@ function toStartView() {
       margin-top: -20vh;
       margin-bottom: 20vh;
     }
-
-    @keyframes up_anime{
-      0% {
-        transform: translateY(100vh);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
-    animation-name: up_anime;
-    animation-duration: 0.5s;
-    animation-fill-mode: both;
   }
 
   .div-8 {
@@ -287,6 +261,38 @@ function toStartView() {
 
   .absolute {
     position: absolute;
+  }
+
+  .up-in {
+    @keyframes up_anime{
+      from {
+        opacity: 0;
+        transform: translateY(100vh);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    animation-name: up_anime;
+    animation-duration: 0.5s;
+    animation-fill-mode:both;
+  }
+
+  .down-in {
+    @keyframes down_anime{
+      from {
+        opacity: 0;
+        transform: translateY(-100vh);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    animation-name: down_anime;
+    animation-duration: 0.5s;
+    animation-fill-mode:both;
   }
 }
 
