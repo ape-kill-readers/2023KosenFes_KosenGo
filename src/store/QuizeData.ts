@@ -14,7 +14,12 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
 
     async function QuizeFetch() {
         try {
-            const response = await axios.get(`http://localhost:8080/QuizeFetch?mode=${mode.value}`)
+            const reqURL = "http://localhost:8080/QuizeFetch"
+            const response = await axios.get(reqURL, {
+                params: {
+                    mode: mode.value
+                }
+            })
             console.log(response.data)
 
             QuizeData.value.ans = response.data.ans

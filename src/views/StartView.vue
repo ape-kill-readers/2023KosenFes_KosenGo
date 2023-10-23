@@ -10,6 +10,32 @@ const QuizeData = useQuizeDataStore()
 const UserAnswer = ref('')
 const RoutingAnimation = ref('') //こいつにクラス名を参照させる
 
+
+const modeList = [{"DisplayName":"ノーマル", "ModeName":""},
+                  {"DisplayName":"メディア情報工学科用", "ModeName":"media"},
+                  {"DisplayName":"九大生用", "ModeName":"QU"}];
+let modeListIndex = 0;
+
+const ModeDownShift = () => {
+    modeListIndex++;
+    if(modeListIndex == modeList.length) {
+        modeListIndex = 0;
+    }
+
+    UserAnswer.value = modeList[modeListIndex].DisplayName
+    QuizeData.mode = modeList[modeListIndex].ModeName
+}
+
+const ModeUpShift = () => {
+    modeListIndex--;
+    if(modeListIndex == -1) {
+        modeListIndex = modeList.length - 1;
+    }
+
+    UserAnswer.value = modeList[modeListIndex].DisplayName
+    QuizeData.mode = modeList[modeListIndex].ModeName
+}
+
 let RoutingAnimationIntervalId = null
 
 onBeforeUnmount(() => {
@@ -22,8 +48,6 @@ function animationInterval () {
 }
 
 async function TransitionQuizeView() {
-
-    QuizeData.mode = UserAnswer.value
 
 
     try {
@@ -71,7 +95,7 @@ const vFocus = {
                 <div class="press_enter_view">
                     <text class="press_enter_text">文字入力ができる状態でEnterキーを押してね</text>
                 </div>
-                <input v-model="UserAnswer" @keydown.enter="TransitionQuizeView" class="user_answer_input" v-focus="vFocus">
+                <input v-model="UserAnswer" @keydown.enter="TransitionQuizeView" @keydown.up="ModeUpShift()" @keydown.down="ModeDownShift()"  class="user_answer_input" v-focus="vFocus">
             </div>
         </div>
         <div :class="RoutingAnimation" v-if="RoutingAnimation">
