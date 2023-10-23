@@ -10,10 +10,11 @@ export type Quize =  {
 
 export const useQuizeDataStore = defineStore("QuizeData", () => {
     const QuizeData = ref<Quize>({que: '', ans: ''}) as Ref<Quize>
+    const mode = ref<string>("");
 
     async function QuizeFetch() {
         try {
-            const response = await axios.get("http://localhost:8080/QuizeFetch")
+            const response = await axios.get(`http://localhost:8080/QuizeFetch?mode=${mode.value}`)
             console.log(response.data)
 
             QuizeData.value.ans = response.data.ans
@@ -26,10 +27,18 @@ export const useQuizeDataStore = defineStore("QuizeData", () => {
         }
     }
 
+    async function ModeReset() {
+        try {
+            await axios.get(`http://localhost:8080/ClearQuizeProgress?mode=${mode.value}`)
+          }catch(error) {
+            console.log(error)
+          }
+    }
+
     function Init() {
         QuizeData.value = {que: '', ans: ''}
     }
 
-    return {Init,QuizeData, QuizeFetch}
+    return {Init,QuizeData, QuizeFetch, ModeReset, mode}
     
 })

@@ -22,7 +22,18 @@ function animationInterval () {
 }
 
 async function TransitionQuizeView() {
+
+    QuizeData.mode = UserAnswer.value
+
+
     try {
+        console.log("aaaaddd")
+        await QuizeData.ModeReset()
+    } catch(error) {
+        console.log("aaaaaaa")
+    }
+    try {
+
         RoutingAnimation.value = 'to_load'
         //ここにロード画面
         await QuizeData.QuizeFetch()
