@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from 'vue';
+import { ref, onBeforeUnmount, nextTick, watch } from 'vue';
 import {useQuizeDataStore} from '../store/QuizeData'
 import { useRouter } from 'vue-router';
 
@@ -9,12 +9,25 @@ const QuizeData = useQuizeDataStore()
 
 const UserAnswer = ref('')
 const RoutingAnimation = ref('') //こいつにクラス名を参照させる
-
+const el = ref<HTMLInputElement | null>(null)
+const IsInputActive = ref<boolean>(true);
 
 const modeList = [{"DisplayName":"ノーマル", "ModeName":""},
                   {"DisplayName":"メディア情報工学科用", "ModeName":"media"},
                   {"DisplayName":"九大生用", "ModeName":"QU"}];
 let modeListIndex = 0;
+
+watch(IsInputActive, () => {
+    if(!(IsInputActive.value)) {
+        console.log("dddd")
+        IsInputActive.value = true
+        el.value?.focus()
+        if(el.value?.textContent) {
+            console.log("dddddsjlsjflsdf")
+            el.value.textContent = "dddd"
+        }
+    }
+})
 
 const ModeDownShift = () => {
     modeListIndex++;
@@ -95,7 +108,7 @@ const vFocus = {
                 <div class="press_enter_view">
                     <text class="press_enter_text">文字入力ができる状態でEnterキーを押してね</text>
                 </div>
-                <input v-model="UserAnswer" @keydown.enter="TransitionQuizeView" @keydown.up="ModeUpShift()" @keydown.down="ModeDownShift()"  class="user_answer_input" v-focus="vFocus">
+                <input ref="el" v-model="UserAnswer" @keydown.enter="TransitionQuizeView" @keydown.up="ModeUpShift()" @keydown.down="ModeDownShift()" @blur="IsInputActive = false"  class="user_answer_input" v-focus>
             </div>
         </div>
         <div :class="RoutingAnimation" v-if="RoutingAnimation">
