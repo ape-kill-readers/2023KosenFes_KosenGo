@@ -6,6 +6,10 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import { useProgressCounterStore } from "@/store/QuizeProgressCounter";
 import { useTimeUpStore, useTimesLeftStore } from "../store/TimeUp";
+import question1 from '@/assets/question1.png';
+import question2 from '@/assets/question2.png';
+import question3 from '@/assets/question3.png';
+import question4 from '@/assets/question4.png';
 
 //store
 const QuizeProgressCount = useProgressCounterStore();
@@ -22,13 +26,15 @@ const { isTimeUp } = storeToRefs(TimeUp);
 //リアクティビリティ
 const UserAnswer = ref("");
 const JudgeResult = ref<HTMLParagraphElement | null>();
-const QuizeTextAnimation = ref('')
+const QuizeTextAnimation = ref('');
+const PreviousUserAnswer = ref('');
+const questionImages = [question1, question2, question3, question4];
 
 //router
 const router = useRouter();
 
 //定数
-const quizeLen = 3
+const quizeLen = 4
 const vFocus = {
   mounted: (el: HTMLInputElement) => el.focus()
 }
@@ -38,11 +44,6 @@ onBeforeUnmount(() => {
 });
 
 onMounted(() => {
-    for(let i = 1; i <= ProgressCount.value; i++) {
-        const LiElm = document.getElementById("counter" + i) as HTMLElement
-        LiElm.style.backgroundColor = "#000000"
-    }
-
     QuizeTextAnimation.value = "quizeText"
 })
 
@@ -109,7 +110,8 @@ async function JudgeAnswer() {
     }
 
     try {
-      QuizeTextAnimation.value = ""
+      PreviousUserAnswer.value = "";
+      QuizeTextAnimation.value = "";
       //ここにロード画面
 
       await QuizeData.QuizeFetch();
@@ -128,6 +130,7 @@ async function JudgeAnswer() {
     if (JudgeResult.value) {
       JudgeResult.value.textContent = "ざんねん！w";
     }
+    PreviousUserAnswer.value = UserAnswer.value;
     UserAnswer.value = "";
 
     console.log(JudgeResult.value);
@@ -147,7 +150,7 @@ function resetTimer() {
     <div class="quize_content">
       <div class="quize_header">
         <ul class="counter_list">
-          <li v-for="loop in 3" :id="'counter'+ (loop)"><p>{{loop}}</p></li>
+          <img class="quize_img" v-if="!TimeUp.isTimeUp" :src="questionImages[ProgressCount - 1]" />
         </ul>
       </div>
 
@@ -165,11 +168,11 @@ function resetTimer() {
           </div>
         </div>
         <div class="quizeDepartment">
-          <div class="quizeField">
-            <div class="quizeBox">
-              <p  :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
-              <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
-            </div>
+          <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
+          <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+          <div v-if="!TimeUp.isTimeUp && PreviousUserAnswer" class="previousBox">
+            <p class="previousAnswer">直前の解答</p>
+            <p class="previousText">{{ PreviousUserAnswer }}</p>
           </div>
         </div>
       </div>
@@ -206,14 +209,11 @@ function resetTimer() {
     background-color:#D9D9D9;
     list-style: none;
     height: 100%;
-    li {
-      display: inline-block;
-      background-color: #666;
+    .quize_img {
+      display: flex;
       height: 100%;
-      width: 10vh;
+      width: 50vh;
       line-height:10vh;
-      font-size: large;
-      text-align: center;
     }
   }
 }
@@ -259,41 +259,50 @@ function resetTimer() {
   .quizeDepartment {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-top: 13vh;
-    .quizeField {
-      display: flex;
+    justify-content: center;   
+    .quizeText {
+      text-align: center;
+      font-size: 4vh;
+      color: #F0D026;
+      -webkit-text-stroke: 3px black;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      font-weight: bold;
       position: absolute;
-      align-items: center;
-      justify-content: center;
-      .quizeBox {
-        display: flex;
-        width: 75vh;
-        height: 40vh;
-        align-items: center;
-        justify-content: center;
-        background-color: #d9d9d9;
-        word-wrap: break-word;
-        overflow: hidden;
-        .quizeText {
-          width: 75vh;
-          padding-right: 4vh;
-          padding-left: 4vh;
-          text-align: center;
-          font-size: 4vh;
-          color: red;
 
-          animation: font-grow 17s linear;
-          
-          @keyframes font-grow {
-          0% {
-            font-size: 2vh;
-          }
-          100% {
-            font-size: 8vh;
-          }
+      animation: font-grow 17s linear;
+      
+      @keyframes font-grow {
+        0% {
+          font-size: 8vh;
         }
+        100% {
+          font-size: 50vh;
         }
+      }
+    }
+    .previousBox {
+      display: flex;
+      justify-content: center;
+      margin-top: 80vh;
+      background-color: #D9D9D9;
+      opacity: 1;
+      position: absolute;
+      width: 40vw;
+      height: 13vh;
+      .previousAnswer {
+        color: #2D9CEC;
+        -webkit-text-stroke: 1.4px black;
+        font-weight: 1000;
+        text-align: center;
+        font-size: 3vh;
+      }
+      .previousText {
+        color: #fff;
+        -webkit-text-stroke: 3px black;
+        font-weight: 1000;
+        font-size: 6vh;
+        position: absolute;
+        margin-top: 3vh;
       }
     }
   }
