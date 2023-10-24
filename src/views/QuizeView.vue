@@ -93,7 +93,8 @@ watch(ProgressCount, () => {
 async function QuizeRetry(){
   try {
     
-    QuizeTextAnimation.value = ""
+    PreviousUserAnswer.value = "";
+    QuizeTextAnimation.value = "";
     //ここにロード画面
     await QuizeData.QuizeFetch();
     if (JudgeResult.value) {
@@ -157,7 +158,7 @@ function resetTimer() {
 
 <template>
   <div class="container">
-    <div class="quize_content">
+    <div>
       <div class="quize_header">
         <ul class="counter_list">
           <img class="quize_img" v-if="!TimeUp.isTimeUp" :src="questionImages[ProgressCount - 1]" />
@@ -168,12 +169,10 @@ function resetTimer() {
 
       <div class="quize_main">
         <div class="statusDepartment">
-          <div>
-            <div class="ansTimeBox">
-              <h2 class="ansTimeText">{{ TimesLeft }}</h2>
-            </div>
+          <div class="leftField">
             <div class="leftBox">
-              <h2 class="leftText">残 {{ PlayerLife.Count }}</h2>
+              <img class="love_img" src="@/assets/love.png">
+              <p class="leftText">×{{ PlayerLife.Count }}</p>
             </div>
           </div>
         </div>
@@ -215,7 +214,6 @@ function resetTimer() {
   height: 10vh;
   width: 100vw;
   .counter_list {
-    color: aqua;
     background-color:#D9D9D9;
     list-style: none;
     height: 100%;
@@ -236,27 +234,32 @@ function resetTimer() {
   .statusDepartment {
     display: flex;
     flex-direction: row-reverse;
-    .ansTimeBox {
-      display: flex;
-      background-color: #666666;
-      align-items: center;
-      justify-content: center;
-      width: 10vh;
-      height: 10vh;
-      .ansTimeText {
-        color: white;
-      }
-    }
     .leftBox {
       display: flex;
       background-color: #d9d9d9;
       align-items: center;
       justify-content: center;
-      width: 10vh;
+      width: 25vh;
       height: 10vh;
-      .leftText {
-        color: black;
-      }
+      margin-right: 5vh;
+      margin-top: 10vh;
+      transform: skewX(-10deg);/*平行四辺形の角度*/
+    }
+    .leftText {
+      color: white;
+      -webkit-text-stroke: 2px black;
+      font-size: 8vh;
+      font-weight: bold;
+      margin-left: 80px;
+      letter-spacing: 10px;
+      transform: skewX(10deg)
+    }
+    .love_img {
+      width: 120px;
+      height: 120px;
+      position: absolute;
+      margin-right: 120px;
+      transform: skewX(10deg)
     }
   }
 
@@ -278,15 +281,16 @@ function resetTimer() {
       font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
       font-weight: bold;
       position: absolute;
+      margin-top: 40vh;
 
       animation: font-grow 17s linear;
       
       @keyframes font-grow {
         0% {
-          font-size: 8vh;
+          font-size: 4vw;
         }
         100% {
-          font-size: 50vh;
+          font-size: 14vw;
         }
       }
     }
@@ -297,6 +301,7 @@ function resetTimer() {
       background-color: #D9D9D9;
       opacity: 1;
       position: absolute;
+      margin-top: 100vh;
       width: 40vw;
       height: 13vh;
       .previousAnswer {
