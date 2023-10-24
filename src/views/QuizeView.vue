@@ -17,6 +17,8 @@ const QuizeData = useQuizeDataStore();
 const TimeUp = useTimeUpStore();
 const TimesLeftStore = useTimesLeftStore();
 const PlayerLife = usePlayerLifeStore();
+const el = ref<HTMLInputElement | null>(null)
+const IsInputActive = ref<boolean>(true);
 
 //リアクティビリティ化したStore
 const { ProgressCount } = storeToRefs(QuizeProgressCount);
@@ -38,6 +40,18 @@ const quizeLen = 4
 const vFocus = {
   mounted: (el: HTMLInputElement) => el.focus()
 }
+
+watch(IsInputActive, () => {
+    if(!(IsInputActive.value)) {
+        console.log("dddd")
+        IsInputActive.value = true
+        el.value?.focus()
+        if(el.value?.textContent) {
+            console.log("dddddsjlsjflsdf")
+            el.value.textContent = "dddd"
+        }
+    }
+})
 
 onBeforeUnmount(() => {
   clearInterval(timerObject);
@@ -187,7 +201,7 @@ function resetTimer() {
         <div class="press_enter_view">
           <text class="press_enter_text"></text>
         </div>
-        <input v-if="!TimeUp.isTimeUp" v-model="UserAnswer" @keydown.enter="JudgeAnswer()" class="user_answer_input" v-focus="vFocus" />
+        <input v-if="!TimeUp.isTimeUp" ref="el" v-model="UserAnswer" @keydown.enter="JudgeAnswer()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
         <button v-else class="user_answer_input" @click="QuizeRetry()">
           リトライ
         </button>
