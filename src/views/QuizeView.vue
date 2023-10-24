@@ -201,7 +201,7 @@ function resetTimer() {
         <div class="press_enter_view">
           <text class="press_enter_text"></text>
         </div>
-        <input v-if="!TimeUp.isTimeUp" ref="el" v-model="UserAnswer" @keydown.enter="JudgeAnswer()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
+        <input v-if="!TimeUp.isTimeUp" ref="el" maxlength="10" v-model="UserAnswer" @keydown.enter="JudgeAnswer()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
         <button v-else class="user_answer_input" @click="QuizeRetry()">
           リトライ
         </button>
