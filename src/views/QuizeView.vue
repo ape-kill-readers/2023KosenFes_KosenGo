@@ -73,7 +73,6 @@ function countDown() {
     clearInterval(timerObject);
 
     TimeUp.toTrue();
-    PlayerLife.Decrement();
 
     if (PlayerLife.Count < 0) {
       PlayerLife.IsNothingToTrue();
@@ -103,6 +102,7 @@ async function QuizeRetry(){
 
     resetTimer()
     
+    PlayerLife.Decrement();
     QuizeTextAnimation.value = "quizeText"
     UserAnswer.value = "";
   }catch(err) {
