@@ -88,10 +88,6 @@ watch(ProgressCount, () => {
     router.push('/finished')
   }
 
-  for(let i = 1; i <= ProgressCount.value; i++) {
-    const LiElm = document.getElementById("counter" + i) as HTMLElement
-    LiElm.style.backgroundColor = "#000000"
-  }
 })
 
 async function QuizeRetry(){
