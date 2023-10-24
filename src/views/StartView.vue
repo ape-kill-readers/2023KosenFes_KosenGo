@@ -49,7 +49,7 @@ const ModeUpShift = () => {
     QuizeData.mode = modeList[modeListIndex].ModeName
 }
 
-let RoutingAnimationIntervalId = null
+let RoutingAnimationIntervalId: NodeJS.Timeout
 
 onBeforeUnmount(() => {
     clearInterval(RoutingAnimationIntervalId)    
