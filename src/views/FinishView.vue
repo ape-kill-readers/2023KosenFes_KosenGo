@@ -171,6 +171,8 @@ function toStartView() {
       margin-top: -20vh;
       margin-bottom: 20vh;
     }
+
+    animation: emphasis 
   }
 
   .div-4 {
@@ -265,13 +267,19 @@ function toStartView() {
 
   .up-in {
     @keyframes up_anime{
-      from {
+      0% {
         opacity: 0;
         transform: translateY(100vh);
       }
-      to {
+      70% {
         opacity: 1;
         transform: translateY(0);
+      }
+      90% {
+        opacity: 0;
+      }
+      100%{
+        opacity: 1;
       }
     }
     animation-name: up_anime;
@@ -281,18 +289,30 @@ function toStartView() {
 
   .down-in {
     @keyframes down_anime{
-      from {
+      0% {
         opacity: 0;
         transform: translateY(-100vh);
       }
-      to {
+      70% {
         opacity: 1;
         transform: translateY(0);
+      }
+      90% {
+        opacity: 0;
+      }
+      100%{
+        opacity: 1;
       }
     }
     animation-name: down_anime;
     animation-duration: 0.5s;
     animation-fill-mode:both;
+  }
+
+  @keyframes emphasis {
+    0% { font-size: 10rem }
+    50% { font-size: 15rem }
+    100% { font-size: 10rem }
   }
 }
 
