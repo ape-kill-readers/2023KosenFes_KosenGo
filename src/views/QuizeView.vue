@@ -58,6 +58,7 @@ watch(IsInputActive, () => {
 
 onBeforeUnmount(() => {
   clearInterval(timerObject);
+  clearInterval(correctIntervalId);
 });
 
 onMounted(() => {
@@ -91,11 +92,12 @@ async function QuizeRetry(){
     
     await QuizeData.QuizeFetch();
     resetTimer()
+    startTimer()
     
     //quize初期化
-    QuizeTextAnimation.value = "quizeText"
     PreviousUserAnswer.value = "";
     UserAnswer.value = "";
+    TimeUp.toFalse();
     //残基減る
     PlayerLife.Decrement();
   }catch(err) {
@@ -107,6 +109,8 @@ async function QuizeRetry(){
 async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
     try {
+      //正解時のインターバル、インターバル終了時にstartTimer
+      setCorrectInterval()
       //問題文アニメーション無効
       QuizeTextAnimation.value = "";
 
@@ -116,7 +120,6 @@ async function JudgeAnswer() {
       resetTimer()
 
       //クイズ初期化
-      QuizeTextAnimation.value = "quizeText"
       PreviousUserAnswer.value = "";
       UserAnswer.value = "";   
     }catch(err) {
@@ -133,13 +136,24 @@ async function JudgeAnswer() {
 function resetTimer() {
   TimesLeft.value = 15;
   clearInterval(timerObject);
-  TimeUp.toFalse();
-  
+}
+
+function startTimer() {
   if (ProgressCount.value == (quizeLen + 1)){
     router.push('/finished')
   } else {
     timerObject = setInterval(countDown, 1000)
+    QuizeTextAnimation.value = "quizeText" //QuizeTextはTimesLeftと連動してアニメーションを発火
   }
+}
+
+function setCorrectInterval() {
+  const correctInterval = () => {
+    console.log("correctInterval")
+    clearInterval(correctIntervalId)
+    startTimer()
+  }
+  correctIntervalId = setInterval(correctInterval, 5000)
 }
 </script>
 
