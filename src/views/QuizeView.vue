@@ -74,7 +74,6 @@ function countDown() {
     clearInterval(timerObject);
 
     TimeUp.toTrue();
-    PlayerLife.Decrement();
 
     if (PlayerLife.Count < 0) {
       PlayerLife.IsNothingToTrue();
@@ -90,18 +89,20 @@ watch(ProgressCount, () => {
   }
 
 })
-
 async function QuizeRetry(){
   try {
-    PreviousUserAnswer.value = "";
+    //問題文アニメーション無効
     QuizeTextAnimation.value = "";
-    //ここにロード画面
+    
     await QuizeData.QuizeFetch();
-
     resetTimer()
     
+    //quize初期化
     QuizeTextAnimation.value = "quizeText"
+    PreviousUserAnswer.value = "";
     UserAnswer.value = "";
+    //残基減る
+    PlayerLife.Decrement();
   }catch(err) {
     console.log(err)
     router.push("/error")
