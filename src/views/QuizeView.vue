@@ -70,6 +70,7 @@ timerObject = setInterval(countDown, 1000);
 function countDown() {
   if (TimesLeft.value) {
     TimesLeft.value--;
+    console.log(TimesLeft.value)
   } else {
     clearInterval(timerObject);
 
@@ -83,12 +84,6 @@ function countDown() {
 }
 //時間制御終了
 
-watch(ProgressCount, () => {
-  if (ProgressCount.value == (quizeLen + 1)){
-    router.push('/finished')
-  }
-
-})
 async function QuizeRetry(){
   try {
     //問題文アニメーション無効
@@ -112,17 +107,18 @@ async function QuizeRetry(){
 async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
     try {
-      PreviousUserAnswer.value = "";
+      //問題文アニメーション無効
       QuizeTextAnimation.value = "";
-      //ここにロード画面
 
-      await QuizeData.QuizeFetch();
+      //次のクイズ
       QuizeProgressCount.Increment();
-      UserAnswer.value = "";
-    
+      await QuizeData.QuizeFetch();
       resetTimer()
-      QuizeTextAnimation.value = "quizeText"
 
+      //クイズ初期化
+      QuizeTextAnimation.value = "quizeText"
+      PreviousUserAnswer.value = "";
+      UserAnswer.value = "";   
     }catch(err) {
       console.log(err)
       router.push("/error")
@@ -137,8 +133,13 @@ async function JudgeAnswer() {
 function resetTimer() {
   TimesLeft.value = 15;
   clearInterval(timerObject);
-  timerObject = setInterval(countDown, 1000);
   TimeUp.toFalse();
+  
+  if (ProgressCount.value == (quizeLen + 1)){
+    router.push('/finished')
+  } else {
+    timerObject = setInterval(countDown, 1000)
+  }
 }
 </script>
 
