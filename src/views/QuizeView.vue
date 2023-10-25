@@ -10,6 +10,7 @@ import question1 from '@/assets/question1.png';
 import question2 from '@/assets/question2.png';
 import question3 from '@/assets/question3.png';
 import question4 from '@/assets/question4.png';
+import explosion from '@/assets/explosion.gif';
 
 //store
 const QuizeProgressCount = useProgressCounterStore();
@@ -30,6 +31,7 @@ const UserAnswer = ref("");
 const QuizeTextAnimation = ref('');
 const PreviousUserAnswer = ref('');
 const questionImages = [question1, question2, question3, question4];
+const explosionGif = ref('')
 
 //router
 const router = useRouter();
@@ -111,7 +113,8 @@ async function JudgeAnswer() {
     try {
       //正解時のインターバル、インターバル終了時にstartTimer
       setCorrectInterval()
-      //問題文アニメーション無効
+      //問題文アニメーション無効, 爆発エフェクト
+      explosionGif.value = explosion
       QuizeTextAnimation.value = "";
 
       //次のクイズ
@@ -150,6 +153,7 @@ function startTimer() {
 function setCorrectInterval() {
   const correctInterval = () => {
     console.log("correctInterval")
+    explosionGif.value = ""
     clearInterval(correctIntervalId)
     startTimer()
   }
@@ -178,7 +182,8 @@ function setCorrectInterval() {
           </div>
         </div>
         <div class="quizeDepartment">
-          <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
+          <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp && QuizeTextAnimation">{{ QuizeData.QuizeData.que }}</p>
+          <img loop="true" class="explosion" :src="explosionGif" v-else />
           <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
           <div v-if="!TimeUp.isTimeUp && PreviousUserAnswer" class="previousBox">
             <p class="previousAnswer">直前の解答</p>
@@ -293,6 +298,14 @@ function setCorrectInterval() {
           font-size: 14vw;
         }
       }
+    }
+    .explosion {
+      position: absolute;
+      margin-top: 40vh;
+      height: 28vw;
+      width: 28vw;
+
+      
     }
     .previousBox {
       display: flex;
