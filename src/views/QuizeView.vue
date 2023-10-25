@@ -27,7 +27,6 @@ const { isTimeUp } = storeToRefs(TimeUp);
 
 //リアクティビリティ
 const UserAnswer = ref("");
-const JudgeResult = ref<HTMLParagraphElement | null>();
 const QuizeTextAnimation = ref('');
 const PreviousUserAnswer = ref('');
 const questionImages = [question1, question2, question3, question4];
@@ -94,14 +93,10 @@ watch(ProgressCount, () => {
 
 async function QuizeRetry(){
   try {
-    
     PreviousUserAnswer.value = "";
     QuizeTextAnimation.value = "";
     //ここにロード画面
     await QuizeData.QuizeFetch();
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "";
-    }
 
     resetTimer()
     
@@ -111,17 +106,10 @@ async function QuizeRetry(){
     console.log(err)
     router.push("/error")
   }
-  if (JudgeResult.value) {
-    JudgeResult.value.textContent = "";
-  }
 }
 
 async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "正解！w";
-    }
-
     try {
       PreviousUserAnswer.value = "";
       QuizeTextAnimation.value = "";
@@ -140,13 +128,8 @@ async function JudgeAnswer() {
     }
 
   } else {
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "ざんねん！w";
-    }
     PreviousUserAnswer.value = UserAnswer.value;
     UserAnswer.value = "";
-
-    console.log(JudgeResult.value);
   }
 }
 
@@ -202,7 +185,6 @@ function resetTimer() {
         <button v-else class="user_answer_input" @click="QuizeRetry()">
           リトライ
         </button>
-        <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
       </div>
     </div>
     <div v-if="!TimeUp.isTimeUp" :class="{'warning': TimesLeft.valueOf() <= 5}"></div>
