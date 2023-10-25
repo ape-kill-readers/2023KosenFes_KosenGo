@@ -73,9 +73,8 @@ function countDown() {
     clearInterval(timerObject);
 
     TimeUp.toTrue();
-    PlayerLife.Decrement();
 
-    if (PlayerLife.Count < 0) {
+    if (PlayerLife.Count < 1) {
       PlayerLife.IsNothingToTrue();
       router.push("/GameOver");
     }
@@ -103,6 +102,7 @@ async function QuizeRetry(){
 
     resetTimer()
     
+    PlayerLife.Decrement();
     QuizeTextAnimation.value = "quizeText"
     UserAnswer.value = "";
   }catch(err) {
@@ -202,6 +202,9 @@ function resetTimer() {
         </button>
         <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
       </div>
+    </div>
+    <div v-if="!TimeUp.isTimeUp && (TimesLeft.valueOf() < 6)" class="warningTimer">
+      <div v-if="(TimesLeft.valueOf() < 5)" class="countdown">{{ TimesLeft + 1 }}</div>
     </div>
     <div v-if="!TimeUp.isTimeUp" :class="{'warning': TimesLeft.valueOf() <= 5}"></div>
   </div>
@@ -359,22 +362,68 @@ function resetTimer() {
 /*Flash animation*/ 
 .container {
   display: flex;
-}
+  justify-content: center;
+  .warningTimer {
+    display: flex;
+    position: absolute;
+    align-content: center;
+    justify-content: center;
+    width: 10vw;
+    height: 15vh;
+    background-color: rgb(242, 54, 54);
+    animation: pullDown 1s linear;
+    animation-fill-mode: backwards;
 
-.warning {
-  display: flex;
-  animation: flash 1s linear infinite;
-  background-color: red;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
+    @keyframes pullDown {
+      0% {
+        transform: translateY(-100%); /* 上から降りてくるアニメーション */
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
 
-  @keyframes flash {
-    0% { opacity: 0 }
-    25% { opacity: 0.125 }
-    50% { opacity: 0.25 }
-    75% { opacity: 0.125 }
-    100% { opacity: 0 }
+    .countdown {
+      display: flex;
+      position: absolute;
+      color: white;
+      text-align: center;
+      font-size: 5vh;
+      animation: countdown-animation 1s linear 5; /* カウントダウン用のアニメーション */
+      @keyframes countdown-animation {
+        0% {
+          transform: translateY(0);
+          font-size: 5vh;
+        }
+        50% {
+          transform: translateY(0);
+          font-size: 10vh;
+        }
+        100% {
+          transform: translateY(0);
+          font-size: 5vh;
+        }
+      }
+    }
+  }
+
+  .warning {
+    display: flex;
+    animation: flash 1s linear infinite;
+    background-color: red;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+
+    @keyframes flash {
+      0% { opacity: 0 }
+      25% { opacity: 0.125 }
+      50% { opacity: 0.25 }
+      75% { opacity: 0.125 }
+      100% { opacity: 0 }
+    }
   }
 }
+
+
 </style>
