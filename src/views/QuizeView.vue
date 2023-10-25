@@ -41,6 +41,10 @@ const vFocus = {
   mounted: (el: HTMLInputElement) => el.focus()
 }
 
+//変数
+let timerObject: NodeJS.Timeout;
+let correctIntervalId: NodeJS.Timeout
+
 watch(IsInputActive, () => {
     if(!(IsInputActive.value)) {
         console.log("dddd")
@@ -62,9 +66,7 @@ onMounted(() => {
 })
 
 //残り時間制御
-let timerObject: number;
-
-timerObject = Number(setInterval(countDown, 1000));
+timerObject = setInterval(countDown, 1000);
 
 function countDown() {
   if (TimesLeft.value) {
@@ -151,7 +153,7 @@ async function JudgeAnswer() {
 function resetTimer() {
   TimesLeft.value = 15;
   clearInterval(timerObject);
-  timerObject = Number(setInterval(countDown, 1000));
+  timerObject = setInterval(countDown, 1000);
   TimeUp.toFalse();
 }
 </script>
