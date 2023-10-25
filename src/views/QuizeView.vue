@@ -195,8 +195,9 @@ function UserAnswerEnter() {
         <div class="quizeDepartment">
 
           <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp && QuizeTextAnimation">{{ QuizeData.QuizeData.que }}</p>
-          <img class="explosion" :src="explosionGif" v-if="explosionGif" loading="lazy" decoding="sync"/>
+          <img class="explosion" :src="explosionGif" v-if="explosionGif"/>
           <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+
           <div v-if="!TimeUp.isTimeUp && PreviousUserAnswer" class="previousBox">
             <p class="previousAnswer">直前の解答</p>
             <p class="previousText">{{ PreviousUserAnswer }}</p>
