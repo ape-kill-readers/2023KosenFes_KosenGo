@@ -30,7 +30,7 @@ const { isTimeUp } = storeToRefs(TimeUp);
 const UserAnswer = ref("");
 const QuizeTextAnimation = ref('');
 const PreviousUserAnswer = ref('');
-const questionImages = [question1, question2, question3, question4];
+const questionImages = [question1, question2, question3, question4, question4];
 const explosionGif = ref('')
 
 //router
@@ -111,11 +111,13 @@ async function QuizeRetry(){
 async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
     try {
+      let now = new Date().getTime();
       //正解時のインターバル、インターバル終了時にstartTimer
       setCorrectInterval()
       //問題文アニメーション無効, 爆発エフェクト
-      explosionGif.value = explosion
+      explosionGif.value = explosion + '?' + '' + now //gifリロード
       QuizeTextAnimation.value = "";
+      console.log(explosion)
 
       //次のクイズ
       QuizeProgressCount.Increment();
@@ -143,6 +145,7 @@ function resetTimer() {
 
 function startTimer() {
   if (ProgressCount.value == (quizeLen + 1)){
+    clearInterval(correctIntervalId)
     router.push('/finished')
   } else {
     timerObject = setInterval(countDown, 1000)
@@ -158,6 +161,14 @@ function setCorrectInterval() {
     startTimer()
   }
   correctIntervalId = setInterval(correctInterval, 5000)
+}
+
+function UserAnswerEnter() {
+  if (QuizeTextAnimation.value) {
+    JudgeAnswer()
+  } else {
+    UserAnswer.value = ""
+  }
 }
 </script>
 
@@ -182,8 +193,9 @@ function setCorrectInterval() {
           </div>
         </div>
         <div class="quizeDepartment">
+
           <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp && QuizeTextAnimation">{{ QuizeData.QuizeData.que }}</p>
-          <img loop="true" class="explosion" :src="explosionGif" v-else />
+          <img class="explosion" :src="explosionGif" v-if="explosionGif" loading="lazy" decoding="sync"/>
           <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
           <div v-if="!TimeUp.isTimeUp && PreviousUserAnswer" class="previousBox">
             <p class="previousAnswer">直前の解答</p>
@@ -202,7 +214,7 @@ function setCorrectInterval() {
         <div class="press_enter_view">
           <text class="press_enter_text"></text>
         </div>
-        <input v-if="!TimeUp.isTimeUp" ref="el" maxlength="10" v-model="UserAnswer" @keydown.enter="JudgeAnswer()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
+        <input v-if="!TimeUp.isTimeUp" ref="el" maxlength="10" v-model="UserAnswer" @keydown.enter="UserAnswerEnter()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
         <button v-else class="user_answer_input" @click="QuizeRetry()">
           リトライ
         </button>
@@ -307,8 +319,6 @@ function setCorrectInterval() {
       margin-top: 40vh;
       height: 28vw;
       width: 28vw;
-
-      
     }
     .previousBox {
       display: flex;
