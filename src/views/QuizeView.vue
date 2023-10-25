@@ -74,7 +74,7 @@ function countDown() {
 
     TimeUp.toTrue();
 
-    if (PlayerLife.Count < 0) {
+    if (PlayerLife.Count < 1) {
       PlayerLife.IsNothingToTrue();
       router.push("/GameOver");
     }
