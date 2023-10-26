@@ -44,3 +44,10 @@ npm run build
 ```sh
 npm run lint
 ```
+# Test
+## RUN
+```sh
+npm run test
+```
+
+
