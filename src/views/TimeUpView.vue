@@ -38,13 +38,15 @@ const PlayerLife = usePlayerLifeStore();
             </div>
             <div class="quizeDepartment">
                 <div class="QuestionBox">
-                    <p class="QuestionContent">ddddddddd</p>
+                  <div class="QuestionContent">
+                    <p class="QuestionContentText">あいうえお</p>
+                  </div>
                 </div>
                 <div class="borderline">
                 </div>
                 <div class="AnswerBox">
                     <div class="AnswerContent">
-                      <p class="AnswerContentHeading">dee</p>
+                      <p class="AnswerContentHeading">正答</p>
                       <p class="AnswerContentText">あいうえおかきくけこ</p>
                     </div>
                 </div>
@@ -137,6 +139,17 @@ const PlayerLife = usePlayerLifeStore();
           font-style: normal;
           font-weight: 800;
           line-height: normal;
+          text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;
+        }
+        .AnswerContentHeading{
+          color: #2D9CEC;
+          font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+          font-weight: bold;
+          font-size: 5.5vh;
+          font-style: normal;
+          font-weight: 800;
+          line-height: normal;
+          text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;
         }
       }
     }
@@ -157,6 +170,17 @@ const PlayerLife = usePlayerLifeStore();
         .QuestionContent{
             color: rgba($color: #000000, $alpha: 1.0);
             margin: auto;
+            .QuestionContentText{
+              color: #FFF;
+              font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+              font-weight: bold;
+              font-size: 6vh;
+              font-style: normal;
+              font-weight: 800;
+              line-height: normal;
+              text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;
+            }
+            
         }
     }
     }
