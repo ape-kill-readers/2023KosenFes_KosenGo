@@ -48,7 +48,7 @@ function ReturnTop() {
 }
 
 .error-container {
-  background-color: #a9a9a9;
+  background-color: #d9d9d9;
   display: flex;
   width: 60vw;
   height: 55vh;
@@ -77,7 +77,7 @@ function ReturnTop() {
     margin-top: 35vh;
     .retry-button {
       padding: 3vh 10vw;
-      background-color: #feb11c;
+      background-color: #ffc346;
       border: 1px solid #000;
       box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
       color: #fff;
