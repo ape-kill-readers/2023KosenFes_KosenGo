@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount, onBeforeMount } from "vue";
 import { useQuizeDataStore } from "../store/QuizeData";
 import { usePlayerLifeStore } from "@/store/PlayerLife";
 import { storeToRefs } from "pinia";
@@ -78,6 +78,10 @@ onBeforeUnmount(() => {
   clearInterval(TimesLeftStore.timerObject);
   clearInterval(correctIntervalId);
 });
+
+onBeforeMount(() => {
+  TimesLeftStore.resetTimer();
+})
 
 onMounted(() => {
     QuizeTextAnimation.value = "quizeText"

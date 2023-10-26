@@ -34,6 +34,10 @@ export const useTimesLeftStore = defineStore('TimesLeft', () => {
         TimesLeft.value = 15;
     }
 
+    function setTimer() {
+        timerObject = Number(setInterval(countDown, 1000));
+    }
+
     function resetTimer() {
         TimesLeft.value = 15;
         clearInterval(timerObject);
@@ -51,12 +55,8 @@ export const useTimesLeftStore = defineStore('TimesLeft', () => {
     
         TimeUpStore.toTrue();
     
-        if (PlayerLifeStore.Count < 1) {
-        PlayerLifeStore.IsNothingToTrue();
-        router.push("/GameOver");
-        }
     }
     }
       //時間制御終了
-    return {TimesLeft, Init, resetTimer, timerObject, countDown}
+    return {TimesLeft, Init, resetTimer, timerObject, setTimer}
 })

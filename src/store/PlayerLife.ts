@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { type Ref, ref } from "vue";
 
-const DefaultPlayerLifeCount = 1
+const DefaultPlayerLifeCount = 0
 
 export const usePlayerLifeStore = defineStore("PlayerLife", () => {
     const Count = ref<number>(DefaultPlayerLifeCount)
