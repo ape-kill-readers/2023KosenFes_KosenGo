@@ -138,7 +138,7 @@ const vFocus = {
 /* main */
 .start_main {
     background-color: white;
-    height: 70vh;
+    height: 80vh;
     width: 100vw;
     .explain_view {
         display: flex;
@@ -161,7 +161,7 @@ const vFocus = {
 /* footer */
 .start_footer {
     display: block;
-    height: 15vh;
+    height: 20vh;
     width: 100vw;
     background-color: white;
 
