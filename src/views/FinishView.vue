@@ -115,6 +115,10 @@ function toStartView() {
   display: flex;
 }
 
+.finish_content { 
+  overflow: hidden;
+}
+
 /* main */
 
 .finish_main {
