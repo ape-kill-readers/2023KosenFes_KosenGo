@@ -10,6 +10,7 @@ import question1 from '@/assets/question1.png';
 import question2 from '@/assets/question2.png';
 import question3 from '@/assets/question3.png';
 import question4 from '@/assets/question4.png';
+import explosion from '@/assets/explosion.gif';
 
 //store
 const QuizeProgressCount = useProgressCounterStore();
@@ -26,11 +27,13 @@ const { TimesLeft } = storeToRefs(TimesLeftStore); //残り時間
 const { isTimeUp } = storeToRefs(TimeUp);
 
 //リアクティビリティ
-const UserAnswer = ref("");
-const JudgeResult = ref<HTMLParagraphElement | null>();
-const QuizeTextAnimation = ref('');
+const UserAnswer = ref('');
 const PreviousUserAnswer = ref('');
-const questionImages = [question1, question2, question3, question4];
+
+const QuizeTextAnimation = ref('');
+
+const questionImages = [question1, question2, question3, question4, question4];
+const explosionGif = ref('')
 
 //router
 const router = useRouter();
@@ -40,6 +43,10 @@ const quizeLen = 4
 const vFocus = {
   mounted: (el: HTMLInputElement) => el.focus()
 }
+
+//変数
+let timerObject: NodeJS.Timeout;
+let correctIntervalId: NodeJS.Timeout
 
 watch(IsInputActive, () => {
     if(!(IsInputActive.value)) {
@@ -55,6 +62,7 @@ watch(IsInputActive, () => {
 
 onBeforeUnmount(() => {
   clearInterval(timerObject);
+  clearInterval(correctIntervalId);
 });
 
 onMounted(() => {
@@ -62,13 +70,12 @@ onMounted(() => {
 })
 
 //残り時間制御
-let timerObject: number;
-
-timerObject = Number(setInterval(countDown, 1000));
+timerObject = setInterval(countDown, 1000);
 
 function countDown() {
   if (TimesLeft.value) {
     TimesLeft.value--;
+    console.log(TimesLeft.value)
   } else {
     clearInterval(timerObject);
 
@@ -82,77 +89,94 @@ function countDown() {
 }
 //時間制御終了
 
-watch(ProgressCount, () => {
-  if (ProgressCount.value == (quizeLen + 1)){
-    router.push('/finished')
-  }
-
-})
-
 async function QuizeRetry(){
   try {
-    
-    PreviousUserAnswer.value = "";
+    //問題文アニメーション無効
     QuizeTextAnimation.value = "";
-    //ここにロード画面
-    await QuizeData.QuizeFetch();
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "";
-    }
-
-    resetTimer()
     
-    PlayerLife.Decrement();
-    QuizeTextAnimation.value = "quizeText"
+    await QuizeData.QuizeFetch();
+    resetTimer()
+    startTimer()
+
+    //quize初期化
+    PreviousUserAnswer.value = "";
+
     UserAnswer.value = "";
+    TimeUp.toFalse();
+    //残基減る
+    PlayerLife.Decrement();
   }catch(err) {
     console.log(err)
     router.push("/error")
-  }
-  if (JudgeResult.value) {
-    JudgeResult.value.textContent = "";
   }
 }
 
 async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "正解！w";
-    }
-
     try {
-      PreviousUserAnswer.value = "";
+      let now = new Date().getTime();
+      //正解時のインターバル、インターバル終了時にstartTimer
+      setCorrectInterval()
+
+      //問題文アニメーション無効, 爆発エフェクト
+      explosionGif.value = explosion + '?' + '' + now //gifリロード
       QuizeTextAnimation.value = "";
-      //ここにロード画面
+      console.log(explosion)
+      
 
-      await QuizeData.QuizeFetch();
+      //次のクイズ
       QuizeProgressCount.Increment();
-      UserAnswer.value = "";
-    
+      await QuizeData.QuizeFetch();
       resetTimer()
-      QuizeTextAnimation.value = "quizeText"
 
+      //クイズ初期化
+      PreviousUserAnswer.value = "";
+      UserAnswer.value = "";   
     }catch(err) {
       console.log(err)
       router.push("/error")
     }
 
   } else {
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "ざんねん！w";
-    }
     PreviousUserAnswer.value = UserAnswer.value;
     UserAnswer.value = "";
-
-    console.log(JudgeResult.value);
   }
 }
 
 function resetTimer() {
   TimesLeft.value = 15;
   clearInterval(timerObject);
-  timerObject = Number(setInterval(countDown, 1000));
-  TimeUp.toFalse();
+}
+
+function startTimer() {
+  if (ProgressCount.value == (quizeLen + 1)){
+    clearInterval(correctIntervalId)
+    router.push('/finished')
+  } else {
+    timerObject = setInterval(countDown, 1000)
+    QuizeTextAnimation.value = "quizeText" //QuizeTextはTimesLeftと連動してアニメーションを発火
+  }
+}
+
+function setCorrectInterval() {
+  const correctInterval = () => {
+    console.log("correctInterval")
+    explosionGif.value = ""
+
+
+    clearInterval(correctIntervalId)
+    startTimer()
+  }
+  correctIntervalId = setInterval(correctInterval, 2000)
+
+}
+
+function UserAnswerEnter() {
+  if (QuizeTextAnimation.value) {
+    JudgeAnswer()
+  } else {
+    UserAnswer.value = ""
+  }
 }
 </script>
 
@@ -177,8 +201,11 @@ function resetTimer() {
           </div>
         </div>
         <div class="quizeDepartment">
-          <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp">{{ QuizeData.QuizeData.que }}</p>
+
+          <p :class="QuizeTextAnimation" v-if="!TimeUp.isTimeUp && QuizeTextAnimation">{{ QuizeData.QuizeData.que }}</p>
+          <img class="explosion" :src="explosionGif" v-if="explosionGif"/>
           <p v-if="TimeUp.isTimeUp">時間切れ！（笑）</p>
+
           <div v-if="!TimeUp.isTimeUp && PreviousUserAnswer" class="previousBox">
             <p class="previousAnswer">直前の解答</p>
             <p class="previousText">{{ PreviousUserAnswer }}</p>
@@ -196,11 +223,10 @@ function resetTimer() {
         <div class="press_enter_view">
           <text class="press_enter_text"></text>
         </div>
-        <input v-if="!TimeUp.isTimeUp" ref="el" maxlength="10" v-model="UserAnswer" @keydown.enter="JudgeAnswer()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
+        <input v-if="!TimeUp.isTimeUp" ref="el" maxlength="10" v-model="UserAnswer" @keydown.enter="UserAnswerEnter()"  @blur="IsInputActive = false"  class="user_answer_input" v-focus="vFocus" />
         <button v-else class="user_answer_input" @click="QuizeRetry()">
           リトライ
         </button>
-        <p ref="JudgeResult" id="judge_result" class="judge_result"></p>
       </div>
     </div>
     <div v-if="!TimeUp.isTimeUp && (TimesLeft.valueOf() < 6)" class="warningTimer">
@@ -297,14 +323,18 @@ function resetTimer() {
         }
       }
     }
+    .explosion {
+      position: absolute;
+      margin-top: 40vh;
+      height: 28vw;
+      width: 28vw;
+    }
     .previousBox {
       display: flex;
       justify-content: center;
-      margin-top: 80vh;
       background-color: #D9D9D9;
-      opacity: 1;
       position: absolute;
-      margin-top: 100vh;
+      margin-top: 90vh;
       width: 40vw;
       height: 13vh;
       .previousAnswer {
