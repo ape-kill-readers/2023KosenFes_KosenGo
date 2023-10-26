@@ -115,10 +115,9 @@ function toStartView() {
   display: flex;
 }
 
-.finish_content { 
+.finish_content {
   overflow: hidden;
 }
-
 /* main */
 
 .finish_main {
@@ -146,9 +145,9 @@ function toStartView() {
   .column {
     flex-grow: 1;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: flex;
     @media (max-width: 991px) {
       width: 100%;
     }
@@ -156,6 +155,7 @@ function toStartView() {
 
   .div-3 {
     display: flex;
+    margin-top: -20vh;
     gap: 10px;
   }
 
@@ -180,26 +180,25 @@ function toStartView() {
   }
 
   .div-4 {
-      color: #FEAD0F;
+      color: #FE0F0F;
       animation-delay: 1.25s
   }
 
   .div-5 {
-      color: #F3EB24;
+      color: #F36324;
       animation-delay: 1.3s
   }
 
   .div-6 {
-      color: #CAF324;
+      color: #FFE247;
       animation-delay: 1.35s
   }
 
   .column-2 {
-    flex-grow: 1;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin-left: 20px;
     @media (max-width: 991px) {
@@ -210,6 +209,7 @@ function toStartView() {
 
   .div-7 {
     display: flex;
+    margin-top: -20vh;
     gap: 10px;
   }
 
@@ -236,32 +236,32 @@ function toStartView() {
   }
 
   .div-8 {
-      color: #40D38D;
+      color: #C1FE41;
       animation-delay: 1.4s;
   }
 
   .div-9 {
-      color: #72FBDA;
+      color: #72FBA0;
       animation-delay: 1.45s
   }
 
   .div-10 {
-      color: #52B6EE;
+      color: #64F6FF;
       animation-delay: 1.5s
   }
 
   .div-11 {
-      color: #5071E8;
+      color: #377BFF;
       animation-delay: 1.55s
   }
 
   .div-12 {
-      color: #AC45C6;
+      color: #ED5EF9;
       animation-delay: 1.6s
   }
 
   .div-13 {
-      color: #E481FD;
+      color: #FF1BF6;
       animation-delay: 1.65s
   }
 

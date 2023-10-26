@@ -88,12 +88,8 @@ function toStartView() {
 					<GameOverText v-else/>
         </div>
       </div>
-      <div class="finish_footer">
-        <div class="Retry-field" v-if="ModelAnswerFlag">
-          <div class="Retry-button" @click="toStartView">   
-            <div class="text">リトライ</div>
-          </div>
-        </div>
+      <div class="timeup_footer">
+        <button class="retry_button" @click="toStartView()" v-if="ModelAnswerFlag">リトライ</button>
       </div>
     </div>
     <div v-if="FadeInFlag" class="from_quize"></div>
@@ -104,6 +100,56 @@ function toStartView() {
 
 .container {
   display: flex;
+}
+
+.timeup_footer {
+  display: block;
+  height: 15vh;
+  background-color: black;
+  width: 100vw;
+
+  .retry_button {
+    height: 60% ;
+    width: 20%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0;
+    background-color: #feb11c;
+    color: #fff;
+    border: #000 solid 2px;
+    text-align: center;
+    font-family: Inter;
+    font-size: 5vh;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;
+  }
+  .press_enter_view {
+    width: 50%;
+    height: 15%;
+    margin-bottom: 10px;
+    text-align: end;
+    margin-left: 30%;
+    .press_enter_text {
+      color: black;
+      font-size: 2.5vh;
+    }
+  }
+  .user_answer_input {
+    all: unset; 
+    width: 50%;
+    height: 50%;
+    margin-left: 25%;
+    text-align: center;
+    background-color: #d9d9d9;
+    font-size: 4vh;
+    color: black
+  }
+  .judge_result {
+    color: black;
+  }
 }
 
 /* main */
