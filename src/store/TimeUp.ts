@@ -58,5 +58,5 @@ export const useTimesLeftStore = defineStore('TimesLeft', () => {
     }
     }
       //時間制御終了
-    return {TimesLeft, Init, resetTimer, timerObject}
+    return {TimesLeft, Init, resetTimer, timerObject, countDown}
 })

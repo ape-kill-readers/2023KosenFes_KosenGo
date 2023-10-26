@@ -91,9 +91,9 @@ async function QuizeRetry(){
     
     await QuizeData.QuizeFetch();
  // <<<<<<< yuha-yuha/issue80
-    if (JudgeResult.value) {
-      JudgeResult.value.textContent = "";
-    }
+  //  if (JudgeResult.value) {
+   //   JudgeResult.value.textContent = "";
+   // }
 
     TimesLeftStore.resetTimer()
     
@@ -168,7 +168,7 @@ function startTimer() {
     clearInterval(correctIntervalId)
     router.push('/finished')
   } else {
-    timerObject = setInterval(countDown, 1000)
+    timerObject = setInterval(TimesLeftStore.countDown, 1000)
     QuizeTextAnimation.value = "quizeText" //QuizeTextはTimesLeftと連動してアニメーションを発火
   }
 }
