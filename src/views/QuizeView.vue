@@ -137,7 +137,6 @@ async function JudgeAnswer() {
      // QuizeTextAnimation.value = "quizeText"
 //=======
       await QuizeData.QuizeFetch();
-      resetTimer()
 //>>>>>>> dev
 
       //クイズ初期化
