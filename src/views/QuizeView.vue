@@ -53,6 +53,10 @@ watch(IsInputActive, () => {
     }
 })
 
+watch(isTimeUp, () => {
+  router.push("/timeup")
+})
+
 onBeforeUnmount(() => {
   clearInterval(timerObject);
 });
