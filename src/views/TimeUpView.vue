@@ -10,12 +10,35 @@ import question1 from '@/assets/question1.png';
 import question2 from '@/assets/question2.png';
 import question3 from '@/assets/question3.png';
 import question4 from '@/assets/question4.png';
+import router from "@/router";
 
-const TimeUp = useTimeUpStore();
+//store
+const TimeUpStore = useTimeUpStore();
 const QuizeProgressCount = useProgressCounterStore();
-const { ProgressCount } = storeToRefs(QuizeProgressCount);
+const PlayerLifeStore = usePlayerLifeStore();
+const TimesLeftStore = useTimesLeftStore();
+const QuizeDataStore = useQuizeDataStore();
+
+
 const questionImages = [question1, question2, question3, question4];
-const PlayerLife = usePlayerLifeStore();
+const { ProgressCount } = storeToRefs(QuizeProgressCount);
+const {isTimeUp} = storeToRefs(TimeUpStore)
+watch(isTimeUp, () => {
+  router.push("/quize")
+})
+
+async function QuizeRetry(){
+  try {
+    //ここにロード画面
+    await QuizeDataStore.QuizeFetch();
+
+    TimesLeftStore.resetTimer()
+    router.push("/quize")
+  }catch(err) {
+    console.log(err)
+    router.push("/error")
+  }
+}
 </script>
 
 <template>
@@ -23,7 +46,7 @@ const PlayerLife = usePlayerLifeStore();
         <div>
           <div class="timeup_header">
             <ul class="counter_list">
-              <img class="quize_img" v-if="!TimeUp.isTimeUp" :src="questionImages[ProgressCount - 1]" />
+              <img class="quize_img" v-if="!TimeUpStore.isTimeUp" :src="questionImages[ProgressCount - 1]" />
             </ul>
           </div>
 
@@ -32,7 +55,7 @@ const PlayerLife = usePlayerLifeStore();
               <div class="leftField">
                 <div class="leftBox">
                   <img class="love_img" src="@/assets/love.png">
-                  <p class="leftText">×{{ PlayerLife.Count }}</p>
+                  <p class="leftText">×{{ PlayerLifeStore.Count }}</p>
                 </div>
               </div>
             </div>
@@ -54,7 +77,7 @@ const PlayerLife = usePlayerLifeStore();
           </div>
 
           <div class="timeup_footer">
-            <button class="retry_button">リトライ</button>
+            <button class="retry_button" @click="QuizeRetry()">リトライ</button>
           </div>
         </div>
     </div>

@@ -54,36 +54,27 @@ watch(IsInputActive, () => {
 })
 
 watch(isTimeUp, () => {
-  router.push("/timeup")
+  PlayerLife.Decrement();
+
+  console.log("dddd:",PlayerLife.Count - 1)
+
+  if(!(PlayerLife.Count == -1)) {
+    console.log("dddd:",PlayerLife.Count - 1)
+    router.push("/timeup")
+  }else {
+    router.push("/GameOver")
+  }
+
 })
 
 onBeforeUnmount(() => {
-  clearInterval(timerObject);
+  clearInterval(TimesLeftStore.timerObject);
 });
 
 onMounted(() => {
     QuizeTextAnimation.value = "quizeText"
 })
 
-//残り時間制御
-let timerObject: number;
-
-timerObject = Number(setInterval(countDown, 1000));
-
-function countDown() {
-  if (TimesLeft.value) {
-    TimesLeft.value--;
-  } else {
-    clearInterval(timerObject);
-
-    TimeUp.toTrue();
-
-    if (PlayerLife.Count < 1) {
-      PlayerLife.IsNothingToTrue();
-      router.push("/GameOver");
-    }
-  }
-}
 //時間制御終了
 
 watch(ProgressCount, () => {
@@ -104,7 +95,7 @@ async function QuizeRetry(){
       JudgeResult.value.textContent = "";
     }
 
-    resetTimer()
+    TimesLeftStore.resetTimer()
     
     PlayerLife.Decrement();
     QuizeTextAnimation.value = "quizeText"
@@ -133,7 +124,7 @@ async function JudgeAnswer() {
       QuizeProgressCount.Increment();
       UserAnswer.value = "";
     
-      resetTimer()
+      TimesLeftStore.resetTimer()
       QuizeTextAnimation.value = "quizeText"
 
     }catch(err) {
@@ -150,13 +141,6 @@ async function JudgeAnswer() {
 
     console.log(JudgeResult.value);
   }
-}
-
-function resetTimer() {
-  TimesLeft.value = 15;
-  clearInterval(timerObject);
-  timerObject = Number(setInterval(countDown, 1000));
-  TimeUp.toFalse();
 }
 </script>
 
