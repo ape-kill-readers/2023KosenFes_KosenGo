@@ -27,9 +27,11 @@ const { TimesLeft } = storeToRefs(TimesLeftStore); //残り時間
 const { isTimeUp } = storeToRefs(TimeUp);
 
 //リアクティビリティ
-const UserAnswer = ref("");
-const QuizeTextAnimation = ref('');
+const UserAnswer = ref('');
 const PreviousUserAnswer = ref('');
+
+const QuizeTextAnimation = ref('');
+
 const questionImages = [question1, question2, question3, question4, question4];
 const explosionGif = ref('')
 
@@ -114,10 +116,12 @@ async function JudgeAnswer() {
       let now = new Date().getTime();
       //正解時のインターバル、インターバル終了時にstartTimer
       setCorrectInterval()
+
       //問題文アニメーション無効, 爆発エフェクト
       explosionGif.value = explosion + '?' + '' + now //gifリロード
       QuizeTextAnimation.value = "";
       console.log(explosion)
+      
 
       //次のクイズ
       QuizeProgressCount.Increment();
@@ -157,10 +161,13 @@ function setCorrectInterval() {
   const correctInterval = () => {
     console.log("correctInterval")
     explosionGif.value = ""
+
+
     clearInterval(correctIntervalId)
     startTimer()
   }
-  correctIntervalId = setInterval(correctInterval, 5000)
+  correctIntervalId = setInterval(correctInterval, 2000)
+
 }
 
 function UserAnswerEnter() {
@@ -324,11 +331,9 @@ function UserAnswerEnter() {
     .previousBox {
       display: flex;
       justify-content: center;
-      margin-top: 80vh;
       background-color: #D9D9D9;
-      opacity: 1;
       position: absolute;
-      margin-top: 100vh;
+      margin-top: 90vh;
       width: 40vw;
       height: 13vh;
       .previousAnswer {
