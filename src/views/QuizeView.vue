@@ -97,9 +97,10 @@ async function QuizeRetry(){
     await QuizeData.QuizeFetch();
     resetTimer()
     startTimer()
-    
+
     //quize初期化
     PreviousUserAnswer.value = "";
+
     UserAnswer.value = "";
     TimeUp.toFalse();
     //残基減る
