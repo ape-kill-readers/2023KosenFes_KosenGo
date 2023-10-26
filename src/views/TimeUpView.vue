@@ -23,6 +23,7 @@ const QuizeDataStore = useQuizeDataStore();
 const questionImages = [question1, question2, question3, question4];
 const { ProgressCount } = storeToRefs(QuizeProgressCount);
 const {isTimeUp} = storeToRefs(TimeUpStore)
+const {QuizeData} = storeToRefs(QuizeDataStore)
 watch(isTimeUp, () => {
   router.push("/quize")
 })
@@ -62,7 +63,7 @@ async function QuizeRetry(){
             <div class="quizeDepartment">
                 <div class="QuestionBox">
                   <div class="QuestionContent">
-                    <p class="QuestionContentText">あいうえお</p>
+                    <p class="QuestionContentText">{{QuizeData.que}}</p>
                   </div>
                 </div>
                 <div class="borderline">
@@ -70,7 +71,7 @@ async function QuizeRetry(){
                 <div class="AnswerBox">
                     <div class="AnswerContent">
                       <p class="AnswerContentHeading">正答</p>
-                      <p class="AnswerContentText">あいうえおかきくけこ</p>
+                      <p class="AnswerContentText">{{QuizeData.ans}}</p>
                     </div>
                 </div>
             </div>
