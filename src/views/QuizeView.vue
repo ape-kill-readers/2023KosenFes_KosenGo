@@ -60,8 +60,22 @@ watch(IsInputActive, () => {
     }
 })
 
+watch(isTimeUp, () => {
+  PlayerLife.Decrement();
+
+  console.log("dddd:",PlayerLife.Count - 1)
+
+  if(!(PlayerLife.Count == -1)) {
+    console.log("dddd:",PlayerLife.Count - 1)
+    router.push("/timeup")
+  }else {
+    router.push("/GameOver")
+  }
+
+})
+
 onBeforeUnmount(() => {
-  clearInterval(timerObject);
+  clearInterval(TimesLeftStore.timerObject);
   clearInterval(correctIntervalId);
 });
 
@@ -69,25 +83,6 @@ onMounted(() => {
     QuizeTextAnimation.value = "quizeText"
 })
 
-//残り時間制御
-timerObject = setInterval(countDown, 1000);
-
-function countDown() {
-  if (TimesLeft.value) {
-    TimesLeft.value--;
-    console.log(TimesLeft.value)
-  } else {
-    clearInterval(timerObject);
-
-    TimeUp.toTrue();
-
-    if (PlayerLife.Count < 1) {
-      PlayerLife.IsNothingToTrue();
-      router.push("/GameOver");
-    }
-  }
-}
-//時間制御終了
 
 async function QuizeRetry(){
   try {
@@ -95,12 +90,23 @@ async function QuizeRetry(){
     QuizeTextAnimation.value = "";
     
     await QuizeData.QuizeFetch();
-    resetTimer()
-    startTimer()
+ // <<<<<<< yuha-yuha/issue80
+  //  if (JudgeResult.value) {
+   //   JudgeResult.value.textContent = "";
+   // }
+
+    TimesLeftStore.resetTimer()
+    
+    PlayerLife.Decrement();
+    QuizeTextAnimation.value = "quizeText"
+//=======
+  //  resetTimer()
+  //  startTimer()
 
     //quize初期化
-    PreviousUserAnswer.value = "";
+  //  PreviousUserAnswer.value = "";
 
+// >>>>>>> dev
     UserAnswer.value = "";
     TimeUp.toFalse();
     //残基減る
@@ -126,10 +132,16 @@ async function JudgeAnswer() {
 
       //次のクイズ
       QuizeProgressCount.Increment();
+//<<<<<<< yuha-yuha/issue80    
+     // TimesLeftStore.resetTimer()
+     // QuizeTextAnimation.value = "quizeText"
+//=======
       await QuizeData.QuizeFetch();
-      resetTimer()
+//>>>>>>> dev
 
       //クイズ初期化
+      TimesLeftStore.resetTimer()
+      QuizeTextAnimation.value = "quizeText"
       PreviousUserAnswer.value = "";
       UserAnswer.value = "";   
     }catch(err) {
@@ -142,21 +154,14 @@ async function JudgeAnswer() {
     UserAnswer.value = "";
   }
 }
+//<<<<<<< yuha-yuha/issue80
+//=======
 
 function resetTimer() {
   TimesLeft.value = 15;
   clearInterval(timerObject);
 }
 
-function startTimer() {
-  if (ProgressCount.value == (quizeLen + 1)){
-    clearInterval(correctIntervalId)
-    router.push('/finished')
-  } else {
-    timerObject = setInterval(countDown, 1000)
-    QuizeTextAnimation.value = "quizeText" //QuizeTextはTimesLeftと連動してアニメーションを発火
-  }
-}
 
 function setCorrectInterval() {
   const correctInterval = () => {
@@ -165,7 +170,6 @@ function setCorrectInterval() {
 
 
     clearInterval(correctIntervalId)
-    startTimer()
   }
   correctIntervalId = setInterval(correctInterval, 2000)
 
@@ -178,6 +182,7 @@ function UserAnswerEnter() {
     UserAnswer.value = ""
   }
 }
+//>>>>>>> dev
 </script>
 
 <template>

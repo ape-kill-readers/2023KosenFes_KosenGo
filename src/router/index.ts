@@ -4,6 +4,7 @@ import QuizeView from '../views/QuizeView.vue'
 import FinishView from '../views/FinishView.vue'
 import GameOverViewVue from '@/views/GameOverView.vue'
 import QuizeFetchErrorView from '@/views/QuizeFetchErrorView.vue'
+import TimeUpView from '@/views/TimeUpView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,11 @@ const router = createRouter({
       name: "error",
       component:QuizeFetchErrorView,
     },
+    {
+      path: "/timeup",
+      name: "timeup",
+      component:TimeUpView,
+    }
   ],
 });
 
