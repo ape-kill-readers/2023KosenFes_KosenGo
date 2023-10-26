@@ -163,12 +163,6 @@ async function JudgeAnswer() {
 //<<<<<<< yuha-yuha/issue80
 //=======
 
-function resetTimer() {
-  TimesLeft.value = 15;
-  clearInterval(timerObject);
-}
-
-
 function setCorrectInterval() {
   const correctInterval = () => {
     console.log("correctInterval")
