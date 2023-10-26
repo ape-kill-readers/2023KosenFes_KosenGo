@@ -132,10 +132,12 @@ async function JudgeAnswer() {
       explosionGif.value = explosion + '?' + '' + now //gifリロード
       QuizeTextAnimation.value = "";
       console.log(explosion)
-      
 
       //次のクイズ
       QuizeProgressCount.Increment();
+      if (QuizeProgressCount.ProgressCount == (quizeLen + 1)) {
+        router.push('/finished')
+      }
 //<<<<<<< yuha-yuha/issue80    
      // TimesLeftStore.resetTimer()
      // QuizeTextAnimation.value = "quizeText"
