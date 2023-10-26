@@ -40,7 +40,7 @@ function ReturnTop() {
 
 <style scoped lang="scss">
 .error-page {
-  background-color: #000;
+  background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,13 +48,14 @@ function ReturnTop() {
 }
 
 .error-container {
-  background-color: #fff;
+  background-color: #a9a9a9;
   display: flex;
   width: 60vw;
   height: 55vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid #7f7f7f;
 
   .error-message {
     color: #000;
@@ -75,12 +76,14 @@ function ReturnTop() {
     position: absolute;
     margin-top: 35vh;
     .retry-button {
-      background-color: #feb11c;
-      color: #fff;
       padding: 3vh 10vw;
+      background-color: #feb11c;
+      border: 1px solid #000;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      color: #fff;
       font-weight: bold;
       font-size: 4vh;
-      filter: drop-shadow( 5px 5px #ddd )
+      -webkit-text-stroke: 1px #000;
     }
   }
 }
