@@ -162,15 +162,6 @@ function resetTimer() {
   clearInterval(timerObject);
 }
 
-function startTimer() {
-  if (ProgressCount.value == (quizeLen + 1)){
-    clearInterval(correctIntervalId)
-    router.push('/finished')
-  } else {
-    timerObject = setInterval(TimesLeftStore.countDown, 1000)
-    QuizeTextAnimation.value = "quizeText" //QuizeTextはTimesLeftと連動してアニメーションを発火
-  }
-}
 
 function setCorrectInterval() {
   const correctInterval = () => {
@@ -179,7 +170,6 @@ function setCorrectInterval() {
 
 
     clearInterval(correctIntervalId)
-    startTimer()
   }
   correctIntervalId = setInterval(correctInterval, 2000)
 
