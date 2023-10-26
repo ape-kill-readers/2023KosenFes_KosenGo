@@ -92,22 +92,15 @@ const vFocus = {
 <template>
     <div class="container">
         <div class="start-content">
-            <div class="start_header">
-                <p class="header_content"> スタート画面 </p>
-            </div>
             <div class="start_main">
                 <div class="explain_view">
                     <div class="explain_box">
-                        <text class="explain_text">
-                            ああああああああああああああああああああああああああああああああああ
-                        </text>
+                        <img src="@/assets/KosenGo.png" />
                     </div>
                 </div>
             </div>
             <div class="start_footer">
-                <div class="press_enter_view">
-                    <text class="press_enter_text">文字入力ができる状態でEnterキーを押してね</text>
-                </div>
+                <div class="press_enter_text">文字入力ができる状態でEnterキーを押してね</div>
                 <input ref="el" v-model="UserAnswer" @keydown.enter="TransitionQuizeView" @keydown.up="ModeUpShift()" @keydown.down="ModeDownShift()" @blur="IsInputActive = false"  class="user_answer_input" v-focus>
             </div>
         </div>
@@ -163,19 +156,11 @@ const vFocus = {
         word-wrap: break-word;
         overflow: hidden;
     }
-    .explain_text {
-    width: 120vh;
-    padding-right: 4vh;
-    padding-left: 4vh;
-    text-align: center;
-    font-size: 4vh;
-    color: red;
-    }
 }
 
 /* footer */
 .start_footer {
-    display:block;
+    display: block;
     height: 15vh;
     width: 100vw;
     background-color: white;
@@ -193,6 +178,9 @@ const vFocus = {
     .press_enter_text {
         color: black;
         font-size: 2.5vh;
+        margin-left: 25%;
+        margin-right: 25%;
+        text-align: center;
     }
 }
 
