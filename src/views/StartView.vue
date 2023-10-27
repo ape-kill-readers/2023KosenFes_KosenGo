@@ -13,7 +13,7 @@ const el = ref<HTMLInputElement | null>(null)
 const IsInputActive = ref<boolean>(true);
 
 const modeList = [{"DisplayName":"ノーマル", "ModeName":""},
-                  {"DisplayName":"メディア情報工学科用", "ModeName":"media"},
+                  {"DisplayName":"げきむず", "ModeName":"Gekimuzu"},
                   {"DisplayName":"九大生用", "ModeName":"QU"}];
 let modeListIndex = 0;
 
