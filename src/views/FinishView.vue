@@ -27,6 +27,7 @@ onMounted(() => {
 
 function FadeInAnimationInterval() {
   //FadeIn時のインターバル作るための関数
+  console.log("fadein")
   clearInterval(FadeInAnimationIntervalId.value)
   FadeInAnimationIntervalId.value = undefined
 }
