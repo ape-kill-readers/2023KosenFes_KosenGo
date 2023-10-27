@@ -26,22 +26,27 @@ export const useTimesLeftStore = defineStore('TimesLeft', () => {
     const PlayerLifeStore = usePlayerLifeStore()
     const router = useRouter()
     
-    let timerObject: number;
+    const timerObject = ref<number>();
 
-    timerObject = Number(setInterval(countDown, 1000));
+    console.log("pinia instance TimeLeft")
+
+    console.log("piniaInit", timerObject)
 
     function Init() {
         TimesLeft.value = 15;
     }
 
     function setTimer() {
-        timerObject = Number(setInterval(countDown, 1000));
+        timerObject.value = Number(setInterval(countDown, 1000));
     }
 
     function resetTimer() {
         TimesLeft.value = 15;
-        clearInterval(timerObject);
-        timerObject = Number(setInterval(countDown, 1000));
+        console.log("timerObjBeforReset", timerObject);
+        clearInterval(timerObject.value);
+        console.log("timeObjAfterReset", timerObject);
+        timerObject.value = Number(setInterval(countDown, 1000));
+        console.log("TimeUp.ts raw50", timerObject)
         TimeUpStore.toFalse();
     }
 
@@ -51,7 +56,7 @@ export const useTimesLeftStore = defineStore('TimesLeft', () => {
         console.log(TimesLeft.value)
         console.log("okasiisi")
     } else {
-        clearInterval(timerObject);
+        clearInterval(timerObject.value);
     
         TimeUpStore.toTrue();
     

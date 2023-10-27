@@ -75,12 +75,18 @@ watch(isTimeUp, () => {
 })
 
 onBeforeUnmount(() => {
+  console.log("sssss")
+
+  console.log("beforeunmounted TimeLeftObj", TimesLeftStore.timerObject);
   clearInterval(TimesLeftStore.timerObject);
+  console.log("afterunmounted TimeLeftObj", TimesLeftStore.timerObject);
   clearInterval(correctIntervalId);
 });
 
 onBeforeMount(() => {
+  console.log("QuizeView.vue OnbeforeMount1:", TimesLeftStore.timerObject)
   TimesLeftStore.resetTimer();
+  console.log("QuizeView.vue OnbeforeMount2:", TimesLeftStore)
 })
 
 onMounted(() => {
@@ -123,10 +129,8 @@ async function QuizeRetry(){
 
 async function JudgeAnswer() {
   if (QuizeData.QuizeData.ans == UserAnswer.value) {
-    try {
       let now = new Date().getTime();
-      //正解時のインターバル、インターバル終了時にstartTimer
-      setCorrectInterval()
+      
 
       //問題文アニメーション無効, 爆発エフェクト
       explosionGif.value = explosion + '?' + '' + now //gifリロード
@@ -137,23 +141,20 @@ async function JudgeAnswer() {
       QuizeProgressCount.Increment();
       if (QuizeProgressCount.ProgressCount == (quizeLen + 1)) {
         router.push('/finished')
-      }
-//<<<<<<< yuha-yuha/issue80    
-     // TimesLeftStore.resetTimer()
-     // QuizeTextAnimation.value = "quizeText"
-//=======
-      await QuizeData.QuizeFetch();
-//>>>>>>> dev
+      }else {
+        try{
+          await QuizeData.QuizeFetch();
 
-      //クイズ初期化
-      TimesLeftStore.resetTimer()
-      QuizeTextAnimation.value = "quizeText"
-      PreviousUserAnswer.value = "";
-      UserAnswer.value = "";   
-    }catch(err) {
-      console.log(err)
-      router.push("/error")
-    }
+          //クイズ初期化
+          TimesLeftStore.resetTimer()
+          QuizeTextAnimation.value = "quizeText"
+          PreviousUserAnswer.value = "";
+          UserAnswer.value = ""; 
+        }catch(err) {
+          console.log(err)
+          router.push("/error")
+        }
+      }
 
   } else {
     PreviousUserAnswer.value = UserAnswer.value;
@@ -163,17 +164,6 @@ async function JudgeAnswer() {
 //<<<<<<< yuha-yuha/issue80
 //=======
 
-function setCorrectInterval() {
-  const correctInterval = () => {
-    console.log("correctInterval")
-    explosionGif.value = ""
-
-
-    clearInterval(correctIntervalId)
-  }
-  correctIntervalId = setInterval(correctInterval, 2000)
-
-}
 
 function UserAnswerEnter() {
   if (QuizeTextAnimation.value) {
