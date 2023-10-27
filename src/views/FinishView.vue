@@ -98,11 +98,7 @@ function toStartView() {
         </div>
       </div>
       <div class="finish_footer">
-        <div class="Retry-field">
-          <div class="Retry-button" @click="toStartView">   
-            <div class="text">リトライ</div>
-          </div>
-        </div>
+        <button class="Retry-button" @click="toStartView">リトライ</button>
       </div>
     </div>
     <div v-if="FadeInAnimationIntervalId" class="from_quize"></div>
@@ -322,27 +318,27 @@ function toStartView() {
 
 /* footer */
 .finish_footer {
+  display: block;
   height: 15vh;
-  width: 100vw;
   background-color: white;
-  .Retry-field {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    .Retry-button {
-      display: flex;
-      justify-content: center;
-      width: 35vw;
-      height: 10vh;
-      background-color: #999;
-      border-radius: 5vh;
-      .text {
-        margin-top: 2.5vh;
-        font-size: 3.3vh;
-        text-align: center;
-        color: black;
-      }
-    }
+  width: 100vw;
+  .Retry-button {
+    height: 60% ;
+    width: 20%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0;
+    background-color: #feb11c;
+    color: #fff;
+    border: #000 solid 2px;
+    text-align: center;
+    font-family: Inter;
+    font-size: 5vh;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-shadow: 1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;
   }
 }
 
