@@ -48,7 +48,7 @@ const router = createRouter({
       path: "/timeup",
       name: "timeup",
       component:TimeUpView,
-    }
+    },
   ],
 });
 
