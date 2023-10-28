@@ -15,8 +15,8 @@ const IsInputActive = ref<boolean>(true);
 const modeList = [{"DisplayName":"ノーマル", "ModeName":"normal"},
                   {"DisplayName":"高専生用", "ModeName":"Student"},
                   {"DisplayName":"げきむず", "ModeName":"Gekimuzu"},
-                  {"DisplayName":"error", "ModeName":"QU"},
-                  {"DisplayName":"かんたん", "ModeName":"easy"}];
+                  {"DisplayName":"タイピング", "ModeName":"typing"},
+                  {"DisplayName":"かんたん漢字", "ModeName":"easy"}];
 let modeListIndex = 0;
 
 watch(IsInputActive, () => {
