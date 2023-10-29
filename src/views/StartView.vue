@@ -12,10 +12,11 @@ const RoutingAnimation = ref('') //こいつにクラス名を参照させる
 const el = ref<HTMLInputElement | null>(null)
 const IsInputActive = ref<boolean>(true);
 
-const modeList = [{"DisplayName":"ノーマル", "ModeName":""},
+const modeList = [{"DisplayName":"ノーマル", "ModeName":"normal"},
+                  {"DisplayName":"かんたん", "ModeName":"easy"},  
                   {"DisplayName":"高専生用", "ModeName":"Student"},
                   {"DisplayName":"げきむず", "ModeName":"Gekimuzu"},
-                  {"DisplayName":"九大生用", "ModeName":"QU"}];
+                  {"DisplayName":"error", "ModeName":"QU"}];
 let modeListIndex = 0;
 
 watch(IsInputActive, () => {
